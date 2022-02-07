@@ -16,7 +16,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,6 +54,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -332,10 +335,11 @@ public class ComplaintArea extends AppCompatActivity {
                                     Log.i(TAG, "exist");
                                 }
                             }
-                            Toast.makeText(ComplaintArea.this, "Image picked", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ComplaintArea.this, "Multiple images picked", Toast.LENGTH_SHORT).show();
                             //imageEdt.setText("Image Picked !");
                             layout_tick.setVisibility(View.VISIBLE);
                             image_tick.setVisibility(View.VISIBLE);
+                            image_tick.setImageDrawable(getResources().getDrawable(R.drawable.basic_tick));
                             Log.d("lenght",uri.size()+"");
                         }
                         else{
@@ -343,6 +347,7 @@ public class ComplaintArea extends AppCompatActivity {
                             try {
                                 String imgPath = fileUtils.getPath(ComplaintArea.this, image_uri);
                                 Log.e("FILES",imgPath);
+
                                 if (imgPath != null){
                                     filesList.add(new File(imgPath));
 
@@ -350,6 +355,11 @@ public class ComplaintArea extends AppCompatActivity {
                                     //imageEdt.setText("Image Picked !");
                                     layout_tick.setVisibility(View.VISIBLE);
                                     image_tick.setVisibility(View.VISIBLE);
+
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(ComplaintArea.this.
+                                            getContentResolver(), image_uri);
+
+                                    image_tick.setImageBitmap(bitmap);
 
                                 } else {
                                     Toast.makeText(ComplaintArea.this, "Image not picked",
@@ -385,16 +395,20 @@ public class ComplaintArea extends AppCompatActivity {
                                 String videoPath = fileUtils.getPath(ComplaintArea.this,
                                         data.getClipData().getItemAt(i).getUri());
                                 filesList.add(new File(videoPath));
+
                             }
                             for (File f : filesList) {
                                 if (f.exists()) {
                                     Log.i(TAG, "exist");
                                 }
                             }
-                            Toast.makeText(ComplaintArea.this, "Video picked", Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(ComplaintArea.this, "Multiple videos picked", Toast.LENGTH_SHORT).show();
                             //imageEdt.setText("Image Picked !");
                             layout_tick.setVisibility(View.VISIBLE);
                             videos_tick.setVisibility(View.VISIBLE);
+                            videos_tick.setImageDrawable(getResources().getDrawable(R.drawable.basic_tick));
+
                             Log.d("lenght",uri.size()+"");
                         }
                         else
@@ -412,6 +426,14 @@ public class ComplaintArea extends AppCompatActivity {
                                     //imageEdt.setText("Image Picked !");
                                     layout_tick.setVisibility(View.VISIBLE);
                                     videos_tick.setVisibility(View.VISIBLE);
+
+                                    Bitmap bmThumbnail = ThumbnailUtils.
+                                            createVideoThumbnail(videoPath,
+                                                    MediaStore.Images.Thumbnails.MINI_KIND);
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(ComplaintArea.this.
+                                            getContentResolver(), video_uri);
+
+                                    videos_tick.setImageBitmap(bmThumbnail);
                                 } else {
                                     //videoEdt.setText("Video");
                                     Toast.makeText(ComplaintArea.this, "Video not picked", Toast.LENGTH_SHORT).show();
@@ -516,7 +538,7 @@ public class ComplaintArea extends AppCompatActivity {
                                     Log.i(TAG, "exist");
                                 }
                             }
-                            Toast.makeText(ComplaintArea.this, "Audio picked",
+                            Toast.makeText(ComplaintArea.this, "Multiple audios picked",
                                     Toast.LENGTH_SHORT).show();
                             //imageEdt.setText("Image Picked !");
                             layout_tick.setVisibility(View.VISIBLE);

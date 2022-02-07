@@ -38,12 +38,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="District: "
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginHorizontal="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_47sdp"
                 android:background="@drawable/rect_shape"
                 android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/_50sdp"
                 android:layout_marginHorizontal="27dp"
                 android:layout_marginBottom="@dimen/_14sdp">
 
@@ -67,6 +77,16 @@
 
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category: "
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginHorizontal="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -97,6 +117,16 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Council: "
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginHorizontal="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_47sdp"
@@ -104,7 +134,6 @@
                 android:gravity="center_vertical"
                 android:layout_marginHorizontal="27dp"
                 android:layout_marginBottom="@dimen/_14sdp">
-
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -118,9 +147,19 @@
                     android:layout_marginLeft="16dp"
                     android:background="@null"
                     android:textColorHint="@color/mytextcolor"
-                    android:hint="Complaint Council"/>
+                    android:hint="Type council"/>
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detail: "
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginHorizontal="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -128,7 +167,6 @@
                 android:background="@drawable/rect_shape"
                 android:layout_marginHorizontal="27dp"
                 android:layout_marginBottom="@dimen/_14sdp">
-
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -237,14 +275,14 @@
                 <LinearLayout
                     android:id="@+id/layout_tick"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="52dp"
                     android:weightSum="4"
                     android:layout_marginTop="10dp"
                     android:visibility="gone"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_marginHorizontal="7dp">
@@ -254,13 +292,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:padding="5dp"
-                            android:visibility="invisible"
-                            android:src="@drawable/basic_tick"/>
+                            android:scaleType="fitXY"
+                            android:visibility="invisible" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_marginHorizontal="7dp"
@@ -271,13 +309,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:padding="5dp"
-                            android:visibility="invisible"
-                            android:src="@drawable/basic_tick"/>
+                            android:scaleType="fitXY"
+                            android:visibility="invisible" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_marginHorizontal="7dp">
@@ -286,14 +324,14 @@
                             android:id="@+id/doc_tick"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:padding="5dp"
+                            android:padding="8dp"
                             android:visibility="invisible"
                             android:src="@drawable/basic_tick"/>
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_marginHorizontal="7dp">
@@ -302,7 +340,7 @@
                             android:id="@+id/audios_tick"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:padding="5dp"
+                            android:padding="8dp"
                             android:visibility="invisible"
                             android:src="@drawable/basic_tick"/>
 
