@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "825937044073",
+    "firebase_url": "https://notificationz-be307.firebaseio.com",
+    "project_id": "notificationz-be307",
+    "storage_bucket": "notificationz-be307.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825937044073:android:140f30937cdc7fbeca78f8",
+        "android_client_info": {
+          "package_name": "com.example.publicsafetycomission"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825937044073-ahid39souo6b5e1rlfp4u70mv40251th.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.publicsafetycomission",
+            "certificate_hash": "3cf01da7d1ca59475abd2af825ce885dcdb8759b"
+          }
+        },
+        {
+          "client_id": "825937044073-eg9csrppmmsvf936mgohs2qq8onqe6gb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBayYYVLAGzI-vQCt4EgIbTlCdOXh-hNnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825937044073-eg9csrppmmsvf936mgohs2qq8onqe6gb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
