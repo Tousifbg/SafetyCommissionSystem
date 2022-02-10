@@ -83,8 +83,16 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editor = pref.edit();
-                editor.clear();
-                editor.commit();
+
+                for (String key : pref.getAll().keySet())
+                {
+                    if (key.contains("token"))
+                    {
+                        editor.remove(key);
+                        editor.commit();
+                    }
+                }
+
                 Toast.makeText(Dashboard.this, "You are logged out", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Dashboard.this, Login.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -97,97 +105,16 @@ public class Dashboard extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, Profile.class);
+                /*Intent intent = new Intent(Dashboard.this, Profile.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-                layoutTransition();
+                layoutTransition();*/
             }
         });
-
-        //get categories from API
-        getCategories = dbHelperClass.getCategoriesData();
-        if (getCategories.size() < 2){
-            fetchCategoriesFromAPI();
-        }  else {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d("DATA","ALL categories preloaded successfully");
-                }
-            });
-        }
-
-        //get districts from API
-        getDistricts = dbHelperClass.getDistrictData();
-        if (getDistricts.size() < 2){
-            fetchDistrictsFromAPI();
-        }  else {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d("DATA","ALL districts preloaded successfully");
-                }
-            });
-        }
     }
 
     private void layoutTransition() {
         this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-    }
-
-    private void fetchDistrictsFromAPI() {
-        RequestParams jsonParams = new RequestParams();
-        jsonParams.put("token",token);
-
-        getClient().post(API_Utils.DISTRICTS, jsonParams, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-                String json = new String(responseBody);
-                Log.d("RESPONSE", "onSuccess: " + json);
-
-                try {
-                    JSONObject object=new JSONObject(json);
-                    JSONArray jsonArray = object.getJSONArray("districts");
-                    dbHelperClass.deleteDistrictTables();
-
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObjectNew = jsonArray.getJSONObject(i);
-
-                        dist_id = jsonObjectNew.getString("district_id");
-                        dist_name = jsonObjectNew.getString("district_name");
-                        String district_status = jsonObjectNew.getString("district_status");
-                        dbHelperClass.addDistricts(dist_id, dist_name);
-                        Log.d("RESPONSE_DATA","dist_id: " +dist_id+ "\ndist_name: " +dist_name+ "\ndistrict_status: " +district_status);
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(Dashboard.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                String json = new String(responseBody);
-                Log.e("REPONSE2", "onSuccess: " + json);
-                Toast.makeText(Dashboard.this, json, Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onCancel() {
-                super.onCancel();
-            }
-        });
     }
 
     private AsyncHttpClient getClient(){
@@ -200,62 +127,6 @@ public class Dashboard extends AppCompatActivity {
         }
 
         return client;
-    }
-
-    private void fetchCategoriesFromAPI() {
-        RequestParams jsonParams = new RequestParams();
-        jsonParams.put("token",token);
-
-
-        Log.e("JSON_DATA_POST", String.valueOf(jsonParams));
-
-        getClient().post(API_Utils.CATEGORIES, jsonParams, new AsyncHttpResponseHandler() {
-
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-                String json = new String(responseBody);
-                Log.d("RESPONSE", "onSuccess: " + json);
-
-                try {
-                    JSONObject object=new JSONObject(json);
-                    JSONArray jsonArray = object.getJSONArray("complaint_categories");
-                    dbHelperClass.deleteCategoriesTables();
-
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObjectNew = jsonArray.getJSONObject(i);
-
-                        cat_id = jsonObjectNew.getString("complaint_category_id");
-                        cat_name = jsonObjectNew.getString("complaint_category_name");
-                        dbHelperClass.addCategories(cat_id, cat_name);
-                        Log.d("RESPONSE_DATA","cat_id: " +cat_id+ "\ncat_name: " +cat_name);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(Dashboard.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                String json = new String(responseBody);
-                Log.e("REPONSE2", "onSuccess: " + json);
-                Toast.makeText(Dashboard.this, json, Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onCancel() {
-                super.onCancel();
-            }
-        });
     }
 
     private void initVIEWs() {

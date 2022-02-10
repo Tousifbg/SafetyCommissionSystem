@@ -18,7 +18,7 @@ public class API_Utils {
 
     public static String GET_COMPLAINTS = "https://www.ppsc.kp.gov.pk/Api/complainant_complaints";
 
-    public static String UPDATE_PROFILE = "https://bintehawa.hed.gkp.pk/api/update_profile";
+    public static String UPDATE_PROFILE = "https://www.ppsc.kp.gov.pk/Api/complainant_profile_update";
 
     public static String FORGOT_PASSWORD = "https://bintehawa.hed.gkp.pk/api/forgot_pass";
 

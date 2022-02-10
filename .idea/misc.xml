@@ -3,11 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/curved_bottom.xml" value="0.144" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/dialog_background.xml" value="0.1828125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1828125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_baseline_arrow_drop_down_24.xml" value="0.1828125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/myshape.xml" value="0.1828125" />
-        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/rect_shape.xml" value="0.1828125" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/rect_shape.xml" value="0.16" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/rect_shape2.xml" value="0.1828125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/round_border_edittext.xml" value="0.152" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/status_shape.xml" value="0.1828125" />
@@ -15,14 +16,18 @@
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_complaint_area.xml" value="0.152" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_dashboard.xml" value="0.176" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_main.xml" value="0.152" />
-        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_registeration.xml" value="0.152" />
-        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_verify_phone.xml" value="0.152" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_profile_update.xml" value="0.136" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_registeration.xml" value="0.144" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_verify_phone.xml" value="0.176" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_view_complaints.xml" value="0.167578125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/cat_dialog.xml" value="0.167578125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/cat_dialog_adpater.xml" value="0.167578125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/country_dialog.xml" value="0.2" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/country_dialog_adpater.xml" value="0.167578125" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/dist_dialog.xml" value="0.167578125" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/dist_dialog2.xml" value="0.167578125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/dist_dialog_adpater.xml" value="0.167578125" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/dist_dialog_adpater2.xml" value="0.167578125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/registered_complaint_itemview.xml" value="0.176" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/xml/provider_paths.xml" value="0.167578125" />
       </map>

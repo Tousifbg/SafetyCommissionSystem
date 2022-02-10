@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ComplaintSys</string>
+
+    <string-array name="Gender_Names">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
 </resources>

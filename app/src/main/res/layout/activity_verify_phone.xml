@@ -71,12 +71,11 @@
                     android:id="@+id/editTextCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:pinCount="6"
                     app:inputType="number"
                     app:isPassword="false"
-                    app:showPasswordToggle="true"
+                    app:pinCount="6"
                     app:pinSize="30dp"
-                    />
+                    app:showPasswordToggle="true" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextCode1"
@@ -89,6 +88,7 @@
                     android:singleLine="true"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                     android:textColor="@color/purple_200">
+
                     <requestFocus />
                 </com.google.android.material.textfield.TextInputEditText>
 
@@ -99,9 +99,9 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/round_border_edittext"
                 android:gravity="center"
                 android:text="VERIFY"
-                android:background="@drawable/round_border_edittext"
                 android:textColor="@color/black" />
 
             <ProgressBar

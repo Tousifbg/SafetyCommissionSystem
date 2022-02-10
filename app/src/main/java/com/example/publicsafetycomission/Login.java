@@ -17,13 +17,18 @@ import com.example.publicsafetycomission.Helpers.ApiCallback;
 import com.example.publicsafetycomission.Helpers.ApiController;
 import com.example.publicsafetycomission.Helpers.NetworkUtils;
 import com.example.publicsafetycomission.Helpers.ShowNow;
+import com.example.publicsafetycomission.databaseRef.DBHelperClass;
 import com.example.publicsafetycomission.model.ComplaintModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -44,6 +49,14 @@ public class Login extends AppCompatActivity {
 
     private ComplaintModel complaintModel;
     private ApiController apiController;
+
+    ArrayList<HashMap<String,String>> getCategories = new ArrayList<HashMap<String, String>>();
+    ArrayList<HashMap<String,String>> getDistricts = new ArrayList<HashMap<String, String>>();
+    DBHelperClass dbHelperClass;
+
+    String token;
+    private String cat_id, cat_name;
+    private String dist_id, dist_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,13 +151,39 @@ public class Login extends AppCompatActivity {
                     String api_res_success_msg = object.getString("response_msg");
                     Log.e("api_res_success_msg",String.valueOf(api_res_success_msg));
 
-                    String token = jsonObject.getString("token");
+                    token = jsonObject.getString("token");
                     Log.e("RESPONSE_DATA","token: " +token);
 
                     editor = pref.edit();
                     editor.putString("token", token);
                     Log.e("SHARED_OK", "ok");
                     editor.commit(); // commit changes
+
+                    //get categories from API
+                    getCategories = dbHelperClass.getCategoriesData();
+                    if (getCategories.size() < 2){
+                        fetchCategoriesFromAPI();
+                    }  else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d("DATA","ALL categories preloaded successfully");
+                            }
+                        });
+                    }
+
+                    //get districts from API
+                    getDistricts = dbHelperClass.getDistrictData();
+                    if (getDistricts.size() < 2){
+                        fetchDistrictsFromAPI();
+                    }  else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d("DATA","ALL districts preloaded successfully");
+                            }
+                        });
+                    }
 
                     goToNextScreen();
 
@@ -191,6 +230,7 @@ public class Login extends AppCompatActivity {
         forgotpass = findViewById(R.id.forgetpassword);
 
         showNow=new ShowNow(this);
+        dbHelperClass = new DBHelperClass(this);
     }
 
     private AsyncHttpClient getClient(){
@@ -203,5 +243,116 @@ public class Login extends AppCompatActivity {
         }
 
         return client;
+    }
+
+    private void fetchCategoriesFromAPI() {
+        RequestParams jsonParams = new RequestParams();
+        jsonParams.put("token",token);
+
+
+        Log.e("JSON_DATA_POST", String.valueOf(jsonParams));
+
+        getClient().post(API_Utils.CATEGORIES, jsonParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                String json = new String(responseBody);
+                Log.d("RESPONSE", "onSuccess: " + json);
+
+                try {
+                    JSONObject object=new JSONObject(json);
+                    JSONArray jsonArray = object.getJSONArray("complaint_categories");
+                    dbHelperClass.deleteCategoriesTables();
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObjectNew = jsonArray.getJSONObject(i);
+
+                        cat_id = jsonObjectNew.getString("complaint_category_id");
+                        cat_name = jsonObjectNew.getString("complaint_category_name");
+                        dbHelperClass.addCategories(cat_id, cat_name);
+                        Log.d("RESPONSE_DATA","cat_id: " +cat_id+ "\ncat_name: " +cat_name);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                String json = new String(responseBody);
+                Log.e("REPONSE2", "onSuccess: " + json);
+                Toast.makeText(Login.this, json, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancel() {
+                super.onCancel();
+            }
+        });
+    }
+
+    private void fetchDistrictsFromAPI() {
+        RequestParams jsonParams = new RequestParams();
+        jsonParams.put("token",token);
+
+        getClient().post(API_Utils.DISTRICTS, jsonParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                String json = new String(responseBody);
+                Log.d("RESPONSE", "onSuccess: " + json);
+
+                try {
+                    JSONObject object=new JSONObject(json);
+                    JSONArray jsonArray = object.getJSONArray("districts");
+                    dbHelperClass.deleteDistrictTables();
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObjectNew = jsonArray.getJSONObject(i);
+
+                        dist_id = jsonObjectNew.getString("district_id");
+                        dist_name = jsonObjectNew.getString("district_name");
+                        String district_status = jsonObjectNew.getString("district_status");
+                        dbHelperClass.addDistricts(dist_id, dist_name);
+                        Log.d("RESPONSE_DATA","dist_id: " +dist_id+ "\ndist_name: " +dist_name+ "\ndistrict_status: " +district_status);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                String json = new String(responseBody);
+                Log.e("REPONSE2", "onSuccess: " + json);
+                Toast.makeText(Login.this, json, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancel() {
+                super.onCancel();
+            }
+        });
     }
 }

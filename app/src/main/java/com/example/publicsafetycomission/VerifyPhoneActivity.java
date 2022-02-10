@@ -121,7 +121,6 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
                             Toast.makeText(VerifyPhoneActivity.this, "Code verified", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(VerifyPhoneActivity.this,
                                     Login.class);
