@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.publicsafetycomission.Constant.API_Utils;
@@ -108,6 +109,9 @@ public class ComplaintArea extends AppCompatActivity {
     public static final int PICK_AUDIO = -2;
     public static final int PICK_VIDEO = -3;
     public static final int PICK_DOCS = -4;
+
+    private LinearLayout no_internet_layout,complaint_layout;
+    private TextView dismiss_net_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,8 +243,23 @@ public class ComplaintArea extends AppCompatActivity {
                         postComplaint();
                     }
                     else {
-                        Toast.makeText(ComplaintArea.this, "No internet",
-                                Toast.LENGTH_SHORT).show();
+                        no_internet_layout.setVisibility(View.VISIBLE);
+                        complaint_layout.setVisibility(View.GONE);
+
+                        dismiss_net_layout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (NetworkUtils.isNetworkConnected(ComplaintArea.this))
+                                {
+                                    no_internet_layout.setVisibility(View.GONE);
+                                    complaint_layout.setVisibility(View.VISIBLE);
+                                }
+                                else {
+                                    no_internet_layout.setVisibility(View.VISIBLE);
+                                    complaint_layout.setVisibility(View.GONE);
+                                }
+                            }
+                        });
                     }
                 }
             }
@@ -684,6 +703,10 @@ public class ComplaintArea extends AppCompatActivity {
         complaint_council = findViewById(R.id.complaint_council);
         category_id = findViewById(R.id.category_id);
         district_id = findViewById(R.id.district_id);
+
+        no_internet_layout = findViewById(R.id.no_internet_layout);
+        complaint_layout = findViewById(R.id.complaint_layout);
+        dismiss_net_layout = findViewById(R.id.dismiss_net_layout);
 
         complaintModel = new ComplaintModel();
         apiController = new ApiController(this);

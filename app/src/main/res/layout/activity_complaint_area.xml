@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -38,330 +39,374 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="District: "
-                android:textSize="@dimen/_12sdp"
-                android:layout_marginHorizontal="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary"/>
-
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_47sdp"
-                android:background="@drawable/rect_shape"
-                android:gravity="center_vertical"
-                android:layout_marginHorizontal="27dp"
-                android:layout_marginBottom="@dimen/_14sdp">
-
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/district_id"
-                    android:layout_weight="1"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:textSize="@dimen/_12sdp"
-                    android:inputType="none"
-                    android:padding="12dp"
-                    android:clickable="true"
-                    android:layout_marginLeft="16dp"
-                    android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
-                    android:background="@null"
-                    android:textColorHint="@color/mytextcolor"
-                    android:hint="Select District"/>
-
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Category: "
-                android:textSize="@dimen/_12sdp"
-                android:layout_marginHorizontal="@dimen/_30sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_47sdp"
-                android:background="@drawable/rect_shape"
-                android:gravity="center_vertical"
-                android:layout_marginHorizontal="27dp"
-                android:layout_marginBottom="@dimen/_14sdp">
-
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/category_id"
-                    android:layout_weight="1"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:inputType="none"
-                    android:textSize="@dimen/_12sdp"
-                    android:padding="12dp"
-                    android:clickable="true"
-                    android:layout_marginLeft="16dp"
-                    android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
-                    android:background="@null"
-                    android:textColorHint="@color/mytextcolor"
-                    android:hint="Select Category"/>
-
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Council: "
-                android:textSize="@dimen/_12sdp"
-                android:layout_marginHorizontal="@dimen/_30sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_47sdp"
-                android:background="@drawable/rect_shape"
-                android:gravity="center_vertical"
-                android:layout_marginHorizontal="27dp"
-                android:layout_marginBottom="@dimen/_14sdp">
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/complaint_council"
-                    android:layout_weight="1"
-                    android:inputType="text"
-                    android:padding="12dp"
-                    android:textSize="@dimen/_12sdp"
-                    android:clickable="true"
-                    android:layout_marginLeft="16dp"
-                    android:background="@null"
-                    android:textColorHint="@color/mytextcolor"
-                    android:hint="Type council"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Detail: "
-                android:textSize="@dimen/_12sdp"
-                android:layout_marginHorizontal="@dimen/_30sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_65sdp"
-                android:background="@drawable/rect_shape"
-                android:layout_marginHorizontal="27dp"
-                android:layout_marginBottom="@dimen/_14sdp">
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/complaint_detail"
-                    android:layout_weight="1"
-                    android:inputType="textMultiLine"
-                    android:padding="12dp"
-                    android:textSize="@dimen/_12sdp"
-                    android:clickable="true"
-                    android:layout_marginLeft="16dp"
-                    android:background="@null"
-                    android:textColorHint="@color/mytextcolor"
-                    android:hint="Write down your complaint..."/>
-
-            </LinearLayout>
-
-            <LinearLayout
+                android:id="@+id/no_internet_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginHorizontal="32dp">
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_50sdp">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView"
+                    android:layout_width="250dp"
+                    android:layout_height="180dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    android:layout_gravity="center"
+                    app:lottie_rawRes="@raw/no_internet" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Attachments"
-                    android:textSize="15sp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="16dp"
-                    android:textColor="@color/black"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:weightSum="4"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginHorizontal="7dp"
-                        android:background="@drawable/rect_shape2">
-
-                        <ImageView
-                            android:id="@+id/image_picker"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:padding="12dp"
-                            android:src="@drawable/image_fil"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginHorizontal="7dp"
-                        android:background="@drawable/rect_shape2">
-
-                        <ImageView
-                            android:id="@+id/videos_picker"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:padding="12dp"
-                            android:src="@drawable/multimedia_player"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginHorizontal="7dp"
-                        android:background="@drawable/rect_shape2">
-
-                        <ImageView
-                            android:id="@+id/doc_picker"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:padding="12dp"
-                            android:src="@drawable/doc_fil"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginHorizontal="7dp"
-                        android:background="@drawable/rect_shape2">
-
-                        <ImageView
-                            android:id="@+id/audios_picker"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:padding="12dp"
-                            android:src="@drawable/audio_file"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_tick"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:weightSum="4"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginHorizontal="7dp">
-
-                        <ImageView
-                            android:id="@+id/image_tick"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:padding="5dp"
-                            android:scaleType="fitXY"
-                            android:visibility="invisible" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginHorizontal="7dp"
-                        >
-
-                        <ImageView
-                            android:id="@+id/videos_tick"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:padding="5dp"
-                            android:scaleType="fitXY"
-                            android:visibility="invisible" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginHorizontal="7dp">
-
-                        <ImageView
-                            android:id="@+id/doc_tick"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:padding="8dp"
-                            android:visibility="invisible"
-                            android:src="@drawable/basic_tick"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginHorizontal="7dp">
-
-                        <ImageView
-                            android:id="@+id/audios_tick"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:padding="8dp"
-                            android:visibility="invisible"
-                            android:src="@drawable/basic_tick"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:id="@+id/dismiss_net_layout"
+                    android:text="Dismiss"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13sdp"
+                    />
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/submitComplaint"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:gravity="center"
-                android:text="SUBMIT"
-                android:textSize="15sp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:background="@drawable/round_border_edittext"
-                android:textColor="@color/black" />
+            <LinearLayout
+                android:id="@+id/complaint_layout"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="District: "
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_marginHorizontal="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_47sdp"
+                    android:background="@drawable/rect_shape"
+                    android:gravity="center_vertical"
+                    android:layout_marginHorizontal="27dp"
+                    android:layout_marginBottom="@dimen/_14sdp">
+
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/district_id"
+                        android:layout_weight="1"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:textSize="@dimen/_12sdp"
+                        android:inputType="none"
+                        android:padding="12dp"
+                        android:clickable="true"
+                        android:layout_marginLeft="16dp"
+                        android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
+                        android:background="@null"
+                        android:textColorHint="@color/mytextcolor"
+                        android:hint="Select District"/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category: "
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_marginHorizontal="@dimen/_30sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_47sdp"
+                    android:background="@drawable/rect_shape"
+                    android:gravity="center_vertical"
+                    android:layout_marginHorizontal="27dp"
+                    android:layout_marginBottom="@dimen/_14sdp">
+
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/category_id"
+                        android:layout_weight="1"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:textSize="@dimen/_12sdp"
+                        android:padding="12dp"
+                        android:clickable="true"
+                        android:layout_marginLeft="16dp"
+                        android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
+                        android:background="@null"
+                        android:textColorHint="@color/mytextcolor"
+                        android:hint="Select Category"/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Council: "
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_marginHorizontal="@dimen/_30sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_47sdp"
+                    android:background="@drawable/rect_shape"
+                    android:gravity="center_vertical"
+                    android:layout_marginHorizontal="27dp"
+                    android:layout_marginBottom="@dimen/_14sdp">
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/complaint_council"
+                        android:layout_weight="1"
+                        android:inputType="text"
+                        android:padding="12dp"
+                        android:textSize="@dimen/_12sdp"
+                        android:clickable="true"
+                        android:layout_marginLeft="16dp"
+                        android:background="@null"
+                        android:textColorHint="@color/mytextcolor"
+                        android:hint="Type council"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Detail: "
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_marginHorizontal="@dimen/_30sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_65sdp"
+                    android:background="@drawable/rect_shape"
+                    android:layout_marginHorizontal="27dp"
+                    android:layout_marginBottom="@dimen/_14sdp">
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/complaint_detail"
+                        android:layout_weight="1"
+                        android:inputType="textMultiLine"
+                        android:padding="12dp"
+                        android:textSize="@dimen/_12sdp"
+                        android:clickable="true"
+                        android:layout_marginLeft="16dp"
+                        android:background="@null"
+                        android:textColorHint="@color/mytextcolor"
+                        android:hint="Write down your complaint..."/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="32dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Attachments"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/black"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:weightSum="4"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="7dp"
+                            android:background="@drawable/rect_shape2">
+
+                            <ImageView
+                                android:id="@+id/image_picker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:padding="12dp"
+                                android:src="@drawable/image_fil"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="7dp"
+                            android:background="@drawable/rect_shape2">
+
+                            <ImageView
+                                android:id="@+id/videos_picker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:padding="12dp"
+                                android:src="@drawable/multimedia_player"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="7dp"
+                            android:background="@drawable/rect_shape2">
+
+                            <ImageView
+                                android:id="@+id/doc_picker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:padding="12dp"
+                                android:src="@drawable/doc_fil"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="7dp"
+                            android:background="@drawable/rect_shape2">
+
+                            <ImageView
+                                android:id="@+id/audios_picker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:padding="12dp"
+                                android:src="@drawable/audio_file"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_tick"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:weightSum="4"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="7dp">
+
+                            <ImageView
+                                android:id="@+id/image_tick"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:padding="5dp"
+                                android:scaleType="fitXY"
+                                android:visibility="invisible" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="7dp"
+                            >
+
+                            <ImageView
+                                android:id="@+id/videos_tick"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:padding="5dp"
+                                android:scaleType="fitXY"
+                                android:visibility="invisible" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="7dp">
+
+                            <ImageView
+                                android:id="@+id/doc_tick"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:padding="8dp"
+                                android:visibility="invisible"
+                                android:src="@drawable/basic_tick"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="7dp">
+
+                            <ImageView
+                                android:id="@+id/audios_tick"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:padding="8dp"
+                                android:visibility="invisible"
+                                android:src="@drawable/basic_tick"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/submitComplaint"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:gravity="center"
+                    android:text="SUBMIT"
+                    android:textSize="15sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:background="@drawable/round_border_edittext"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

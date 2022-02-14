@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +61,9 @@ public class Login extends AppCompatActivity {
     private String cat_id, cat_name;
     private String dist_id, dist_name;
 
+    private LinearLayout no_internet_layout,login_layout;
+    private TextView dismiss_net_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +83,14 @@ public class Login extends AppCompatActivity {
             goToNextScreen();
         }
 
+        forgotpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //forgotPasswordDialog();
+                Toast.makeText(Login.this, "Coming soon...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         loginsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +108,23 @@ public class Login extends AppCompatActivity {
                         loginUser();
                     }
                     else {
-                        Toast.makeText(Login.this, "No internet", Toast.LENGTH_SHORT).show();
+                        no_internet_layout.setVisibility(View.VISIBLE);
+                        login_layout.setVisibility(View.GONE);
+
+                        dismiss_net_layout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (NetworkUtils.isNetworkConnected(Login.this))
+                                {
+                                    no_internet_layout.setVisibility(View.GONE);
+                                    login_layout.setVisibility(View.VISIBLE);
+                                }
+                                else {
+                                    no_internet_layout.setVisibility(View.VISIBLE);
+                                    login_layout.setVisibility(View.GONE);
+                                }
+                            }
+                        });
                     }
                 }
             }
@@ -106,6 +136,40 @@ public class Login extends AppCompatActivity {
                 Intent intent = new Intent(Login.this, Registeration.class);
                 startActivity(intent);
                 layoutTransition();
+            }
+        });
+    }
+
+    private void forgotPasswordDialog() {
+        final android.app.AlertDialog alert_dialog;
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.forgotpassword_dialog, null);
+        builder.setView(view);
+        final LinearLayout password_layout = view.findViewById(R.id.password_layout);
+        final LinearLayout verification_layout = view.findViewById(R.id.verification_layout);
+        final LinearLayout email_layout = view.findViewById(R.id.email_layout);
+        final EditText email_address = view.findViewById(R.id.email_address);
+        final EditText verification_code = view.findViewById(R.id.verification_code);
+        final EditText new_password = view.findViewById(R.id.new_password);
+        TextView btn_submit = view.findViewById(R.id.btn_submit);
+        TextView tv_no = view.findViewById(R.id.tv_no);
+
+        alert_dialog = builder.create();
+        alert_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        alert_dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationTheme;
+        alert_dialog.show();
+
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        tv_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert_dialog.dismiss();
             }
         });
     }
@@ -228,6 +292,10 @@ public class Login extends AppCompatActivity {
         loginsubmit = findViewById(R.id.loginsubmit);
         register = findViewById(R.id.register);
         forgotpass = findViewById(R.id.forgetpassword);
+
+        dismiss_net_layout = findViewById(R.id.dismiss_net_layout);
+        no_internet_layout = findViewById(R.id.no_internet_layout);
+        login_layout = findViewById(R.id.login_layout);
 
         showNow=new ShowNow(this);
         dbHelperClass = new DBHelperClass(this);

@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.publicsafetycomission.Constant.API_Utils;
 import com.example.publicsafetycomission.Helpers.NetworkUtils;
 import com.example.publicsafetycomission.Helpers.ShowNow;
@@ -41,6 +44,10 @@ public class ViewComplaints extends AppCompatActivity {
     private MyRegisteredComplaintsAdapter adapter;
     ArrayList<RegisteredComplaintModel> registeredComplaintModels = new ArrayList<>();
 
+    private LinearLayout no_internet_layout;
+    private TextView dismiss_net_layout;
+    private LottieAnimationView animationView2,animationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +71,26 @@ public class ViewComplaints extends AppCompatActivity {
             fetchMyComplaints();
         }
         else {
-            Toast.makeText(ViewComplaints.this, "No internet", Toast.LENGTH_SHORT).show();
+            no_internet_layout.setVisibility(View.VISIBLE);
+            my_complaint_list.setVisibility(View.GONE);
+
+            dismiss_net_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (NetworkUtils.isNetworkConnected(ViewComplaints.this))
+                    {
+                        no_internet_layout.setVisibility(View.GONE);
+                        my_complaint_list.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        no_internet_layout.setVisibility(View.VISIBLE);
+                        animationView.setVisibility(View.VISIBLE);
+                        dismiss_net_layout.setVisibility(View.VISIBLE);
+                        animationView2.setVisibility(View.GONE);
+                        my_complaint_list.setVisibility(View.GONE);
+                    }
+                }
+            });
         }
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -133,19 +159,25 @@ public class ViewComplaints extends AppCompatActivity {
                                         registeredComplaintModels);
                                 my_complaint_list.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
-                                Toast.makeText(ViewComplaints.this, "Your complaints", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ViewComplaints.this, "Your complaints",
+                                        Toast.LENGTH_SHORT).show();
                             }
                         });
                     } catch (Exception e) {
                         Log.e("ERRR", e.getMessage());
                         String error = e.getMessage().toString();
-                        Toast.makeText(ViewComplaints.this, "TOUSIF : " + error, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewComplaints.this, "TOUSIF : " + error,
+                                Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(ViewComplaints.this, "JSONException: " + e.getMessage(), Toast.LENGTH_LONG).show();
-
+                    no_internet_layout.setVisibility(View.VISIBLE);
+                    my_complaint_list.setVisibility(View.GONE);
+                    animationView.setVisibility(View.GONE);
+                    dismiss_net_layout.setVisibility(View.GONE);
+                    animationView2.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -179,6 +211,10 @@ public class ViewComplaints extends AppCompatActivity {
     private void initViews() {
         my_complaint_list = findViewById(R.id.my_complaint_list);
         btnBack = findViewById(R.id.btnBack);
+        no_internet_layout = findViewById(R.id.no_internet_layout);
+        dismiss_net_layout = findViewById(R.id.dismiss_net_layout);
+        animationView2 = findViewById(R.id.animationView2);
+        animationView = findViewById(R.id.animationView);
         showNow = new ShowNow(this);
     }
 }

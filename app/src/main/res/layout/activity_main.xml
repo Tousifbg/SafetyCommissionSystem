@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -26,7 +27,7 @@
                 android:layout_height="@dimen/_60sdp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:src="@drawable/kplogo" />
+                android:src="@drawable/new_logo" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -51,10 +52,11 @@
             android:textStyle="bold" />
 
     <LinearLayout
-        android:id="@+id/myid"
+        android:id="@+id/login_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:visibility="visible"
         android:orientation="vertical"
         android:padding="@dimen/_40sdp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -76,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_border_edittext"
-                android:drawableLeft="@drawable/ic_user"
+                android:drawableLeft="@drawable/username_icon"
                 android:drawablePadding="10dp"
                 android:hint="Userame"
                 android:inputType="textEmailAddress"
@@ -98,15 +100,16 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorPrimaryDark">
 
             <EditText
                 android:id="@+id/loginpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_border_edittext"
-                android:drawableLeft="@drawable/ic_lock_black_24dp"
-                android:drawableStart="@drawable/ic_lock_black_24dp"
+                android:drawableLeft="@drawable/pass_icon"
+                android:drawableStart="@drawable/pass_icon"
                 android:drawablePadding="10dp"
                 android:hint="Password"
                 android:imeOptions="actionNext"
@@ -142,7 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:text="Forget your password?"
             android:textColor="@color/black"
             android:textSize="@dimen/_11sdp"
@@ -173,6 +176,39 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_13sdp" />
     </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/no_internet_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/_20sdp">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="250dp"
+                android:layout_height="180dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                android:layout_gravity="center"
+                app:lottie_rawRes="@raw/no_internet" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dismiss_net_layout"
+                android:text="Dismiss"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_10sdp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -60,7 +60,7 @@ public class Registeration extends AppCompatActivity {
     ShowNow showNow;
     private AsyncHttpClient client;
 
-    private LinearLayout register_fields_layout,otp_verification_layout;
+    private LinearLayout register_fields_layout,otp_verification_layout,no_internet_layout;
 
     private static final String KEY_VERIFICATION_ID = "key_verification_id";
     private String verificationId;
@@ -70,6 +70,8 @@ public class Registeration extends AppCompatActivity {
     PinView pinView;
 
     TextView resend_code;
+
+    private TextView dismiss_net_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,33 @@ public class Registeration extends AppCompatActivity {
                     pinView.requestPinFocus();
                     return;
                 }
-                verifyCode(code);
+
+                if (NetworkUtils.isNetworkConnected(Registeration.this))
+                {
+                    verifyCode(code);
+                }
+                else {
+                    no_internet_layout.setVisibility(View.VISIBLE);
+                    otp_verification_layout.setVisibility(View.GONE);
+                    register_fields_layout.setVisibility(View.GONE);
+
+                    dismiss_net_layout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (NetworkUtils.isNetworkConnected(Registeration.this))
+                            {
+                                otp_verification_layout.setVisibility(View.VISIBLE);
+                                no_internet_layout.setVisibility(View.GONE);
+                                register_fields_layout.setVisibility(View.GONE);
+                            }
+                            else {
+                                no_internet_layout.setVisibility(View.VISIBLE);
+                                otp_verification_layout.setVisibility(View.GONE);
+                                register_fields_layout.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                }
             }
         });
         if (verificationId == null && savedInstanceState != null) {
@@ -129,54 +157,76 @@ public class Registeration extends AppCompatActivity {
                 phone = contact_no.getText().toString();
                 password = user_password.getText().toString();
                 c_password = confirm_user_password.getText().toString();
-                fullName = full_name.getText().toString().trim();
-                g_name = guardian_name.getText().toString().trim();
-                user_cnic = cnic.getText().toString().trim();
-                email = email_edt.getText().toString().trim();
-                council = union_council.getText().toString().trim();
-                address = address_edt.getText().toString().trim();
+                fullName = full_name.getText().toString();
+                g_name = guardian_name.getText().toString();
+                user_cnic = cnic.getText().toString();
+                email = email_edt.getText().toString();
+                council = union_council.getText().toString();
+                address = address_edt.getText().toString();
 
                 if (TextUtils.isEmpty(username))
                 {
                     user_username.setError("Username is required");
+                    Toast.makeText(Registeration.this, "Username is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(password))
                 {
                     user_password.setError("Password is required");
+                    Toast.makeText(Registeration.this, "Password is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(c_password))
                 {
                     confirm_user_password.setError("Confirm Password is required");
+                    Toast.makeText(Registeration.this, "Confirm Password is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (!c_password.equals(password))
                 {
                     confirm_user_password.setError("Password doesn't match");
+                    Toast.makeText(Registeration.this, "Password doesn't match",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(phone))
                 {
                     contact_no.setError("Phone number is required");
+                    Toast.makeText(Registeration.this, "Phone number is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (phone.isEmpty() || phone.length() < 10) {
                     contact_no.setError("Valid phone number is required");
+                    Toast.makeText(Registeration.this, "Valid phone number is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(fullName))
                 {
                     full_name.setError("Name is required");
+                    Toast.makeText(Registeration.this, "Name is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(g_name))
                 {
                     guardian_name.setError("Guardian name is required");
+                    Toast.makeText(Registeration.this, "Guardian name is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(user_cnic))
                 {
                     cnic.setError("CNIC number is required");
+                    Toast.makeText(Registeration.this, "CNIC number is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (user_cnic.isEmpty() || user_cnic.length() < 13) {
                     cnic.setError("Valid CNIC number is required");
+                    Toast.makeText(Registeration.this, "Valid CNIC number is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(address))
                 {
                     address_edt.setError("Address is required");
+                    Toast.makeText(Registeration.this, "Address is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (selection == null) {
                     Toast.makeText(Registeration.this, "Gender is required",
@@ -185,10 +235,14 @@ public class Registeration extends AppCompatActivity {
                 else if (TextUtils.isEmpty(email))
                 {
                     email_edt.setError("Email is required");
+                    Toast.makeText(Registeration.this, "Email is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(council))
                 {
                     union_council.setError("Union Council is required");
+                    Toast.makeText(Registeration.this, "Union Council is required",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -198,7 +252,26 @@ public class Registeration extends AppCompatActivity {
                         showOTPVerificationLayout();
 
                     } else {
-                        Toast.makeText(Registeration.this, "No internet", Toast.LENGTH_SHORT).show();
+                        no_internet_layout.setVisibility(View.VISIBLE);
+                        otp_verification_layout.setVisibility(View.GONE);
+                        register_fields_layout.setVisibility(View.GONE);
+
+                        dismiss_net_layout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (NetworkUtils.isNetworkConnected(Registeration.this))
+                                {
+                                    otp_verification_layout.setVisibility(View.GONE);
+                                    no_internet_layout.setVisibility(View.GONE);
+                                    register_fields_layout.setVisibility(View.VISIBLE);
+                                }
+                                else {
+                                    no_internet_layout.setVisibility(View.VISIBLE);
+                                    otp_verification_layout.setVisibility(View.GONE);
+                                    register_fields_layout.setVisibility(View.GONE);
+                                }
+                            }
+                        });
                     }
                 }
             }
@@ -216,6 +289,7 @@ public class Registeration extends AppCompatActivity {
 
     private void showOTPVerificationLayout() {
         register_fields_layout.setVisibility(View.GONE);
+        no_internet_layout.setVisibility(View.GONE);
         otp_verification_layout.setVisibility(View.VISIBLE);
 
         String phoneNumber = code + phone;
@@ -259,8 +333,15 @@ public class Registeration extends AppCompatActivity {
     }
 
     private void verifyCode(String code) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-        signInWithCredential(credential);
+        if (verificationId != null && code != null)
+        {
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+            signInWithCredential(credential);
+        }
+        else {
+            Toast.makeText(Registeration.this, "Some error occurred", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void signInWithCredential(PhoneAuthCredential credential) {
@@ -295,11 +376,13 @@ public class Registeration extends AppCompatActivity {
         jsonParams.put("user_contact",phone);
         jsonParams.put("complainant_name",fullName);
         jsonParams.put("complainant_guardian_name",g_name);
-        jsonParams.put("complainant_cnic",cnic);
+        jsonParams.put("complainant_cnic",user_cnic);
         jsonParams.put("complainant_gender",selection);
         jsonParams.put("complainant_email",email);
         jsonParams.put("complainant_council",council);
         jsonParams.put("complainant_address",address);
+
+        Log.e("JSONPARAMS",jsonParams.toString());
 
         getClient().post(API_Utils.REGISTERATION, jsonParams, new AsyncHttpResponseHandler() {
 
@@ -397,9 +480,11 @@ public class Registeration extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
         register_fields_layout = findViewById(R.id.register_fields_layout);
         otp_verification_layout = findViewById(R.id.otp_verification_layout);
+        no_internet_layout = findViewById(R.id.no_internet_layout);
         pinView=findViewById(R.id.editTextCode);
         editText = findViewById(R.id.editTextCode1);
         buttonSignIn = findViewById(R.id.buttonSignIn);
+        dismiss_net_layout = findViewById(R.id.dismiss_net_layout);
         confirm_user_password = findViewById(R.id.confirm_user_password);
         //tvlogin = findViewById(R.id.tvlogin);
         showNow=new ShowNow(this);

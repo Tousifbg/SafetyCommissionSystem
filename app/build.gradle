@@ -48,5 +48,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.0.3'
 
     implementation 'com.szagurskii:patternedtextwatcher:0.5.0'
+
+    def lottieVersion = "3.7.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 }
 apply plugin: 'com.google.gms.google-services'

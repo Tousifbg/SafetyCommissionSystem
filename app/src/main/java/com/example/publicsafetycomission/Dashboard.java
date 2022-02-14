@@ -105,10 +105,9 @@ public class Dashboard extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(Dashboard.this, Profile.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                Intent intent = new Intent(Dashboard.this, Profile.class);
                 startActivity(intent);
-                layoutTransition();*/
+                layoutTransition();
             }
         });
     }

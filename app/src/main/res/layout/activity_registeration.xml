@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".ProfileUpdate">
 
     <RelativeLayout
@@ -19,7 +20,7 @@
             android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_10sdp"
-            android:src="@drawable/kplogo" />
+            android:src="@drawable/new_logo" />
 
          <TextView
             android:layout_width="match_parent"
@@ -54,6 +55,39 @@
                 android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/no_internet_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_20sdp">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView"
+                    android:layout_width="250dp"
+                    android:layout_height="180dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    android:layout_gravity="center"
+                    app:lottie_rawRes="@raw/no_internet" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dismiss_net_layout"
+                    android:text="Dismiss"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13sdp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/register_fields_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,7 +120,7 @@
                         android:layout_weight="1"
                         android:inputType="text"
                         android:padding="12dp"
-                        android:drawableLeft="@drawable/ic_user"
+                        android:drawableLeft="@drawable/username_icon"
                         android:drawablePadding="10dp"
                         android:textSize="@dimen/_12sdp"
                         android:layout_marginLeft="6dp"
@@ -120,10 +154,10 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/cnic"
                         android:layout_weight="1"
-                        android:inputType="numberSigned"
+                        android:inputType="number"
                         android:maxLength="13"
                         android:padding="12dp"
-                        android:drawableLeft="@drawable/ic_user"
+                        android:drawableLeft="@drawable/cnic_icon"
                         android:drawablePadding="10dp"
                         android:textSize="@dimen/_12sdp"
                         android:clickable="true"
@@ -163,7 +197,7 @@
                         android:focusable="false"
                         android:textSize="@dimen/_12sdp"
                         android:inputType="none"
-                        android:drawableLeft="@drawable/ic_user"
+                        android:drawableLeft="@drawable/gender_icon"
                         android:drawablePadding="10dp"
                         android:padding="12dp"
                         android:clickable="true"
@@ -201,7 +235,7 @@
                         android:inputType="text"
                         android:padding="12dp"
                         android:textSize="@dimen/_12sdp"
-                        android:drawableLeft="@drawable/ic_user"
+                        android:drawableLeft="@drawable/username_icon"
                         android:drawablePadding="10dp"
                         android:clickable="true"
                         android:layout_marginLeft="6dp"
@@ -238,7 +272,7 @@
                         android:padding="12dp"
                         android:textSize="@dimen/_12sdp"
                         android:clickable="true"
-                        android:drawableLeft="@drawable/ic_user"
+                        android:drawableLeft="@drawable/email_icon"
                         android:drawablePadding="10dp"
                         android:layout_marginLeft="6dp"
                         android:background="@null"
@@ -275,7 +309,7 @@
                         android:textSize="@dimen/_12sdp"
                         android:clickable="true"
                         android:layout_marginLeft="6dp"
-                        android:drawableLeft="@drawable/ic_user"
+                        android:drawableLeft="@drawable/council_icon"
                         android:drawablePadding="10dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
@@ -309,7 +343,7 @@
                         android:inputType="text"
                         android:padding="12dp"
                         android:textSize="@dimen/_12sdp"
-                        android:drawableLeft="@drawable/ic_user"
+                        android:drawableLeft="@drawable/address_icon"
                         android:drawablePadding="10dp"
                         android:clickable="true"
                         android:layout_marginLeft="6dp"
@@ -346,11 +380,11 @@
                         android:inputType="numberSigned"
                         android:maxLength="11"
                         android:padding="12dp"
-                        android:drawableLeft="@drawable/ic_user"
+                        android:drawableLeft="@drawable/phone_icon"
                         android:drawablePadding="10dp"
                         android:textSize="@dimen/_12sdp"
                         android:clickable="true"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginLeft="6dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
                         android:hint="Type phone no"/>
@@ -382,7 +416,7 @@
                         android:layout_weight="1"
                         android:inputType="text"
                         android:padding="12dp"
-                        android:drawableLeft="@drawable/ic_user"
+                        android:drawableLeft="@drawable/username_icon"
                         android:drawablePadding="10dp"
                         android:textSize="@dimen/_12sdp"
                         android:clickable="true"
@@ -413,24 +447,25 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:passwordToggleEnabled="true">
+                        app:passwordToggleEnabled="true"
+                        app:passwordToggleTint="@color/colorPrimaryDark">
 
                         <EditText
                             android:id="@+id/user_password"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:drawableLeft="@drawable/ic_lock_black_24dp"
-                            android:drawableStart="@drawable/ic_lock_black_24dp"
+                            android:drawableLeft="@drawable/pass_icon"
+                            android:drawableStart="@drawable/pass_icon"
                             android:drawablePadding="10dp"
                             android:hint="Password"
                             android:background="@null"
                             android:imeOptions="actionNext"
                             android:inputType="textPassword"
-                            android:padding="12dp"
+                            android:padding="15dp"
                             android:singleLine="true"
                             android:textColor="@color/mytextcolor"
                             android:textColorHint="@color/mytextcolor"
-                            android:textSize="@dimen/_14sdp" />
+                            android:textSize="@dimen/_12sdp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -456,24 +491,25 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:passwordToggleEnabled="true">
+                        app:passwordToggleEnabled="true"
+                        app:passwordToggleTint="@color/colorPrimaryDark">
 
                         <EditText
                             android:id="@+id/confirm_user_password"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:drawableLeft="@drawable/ic_lock_black_24dp"
-                            android:drawableStart="@drawable/ic_lock_black_24dp"
+                            android:drawableLeft="@drawable/pass_icon"
+                            android:drawableStart="@drawable/pass_icon"
                             android:drawablePadding="10dp"
                             android:hint="Confirm Password"
                             android:background="@null"
                             android:imeOptions="actionNext"
                             android:inputType="textPassword"
-                            android:padding="12dp"
+                            android:padding="15dp"
                             android:singleLine="true"
                             android:textColor="@color/mytextcolor"
                             android:textColorHint="@color/mytextcolor"
-                            android:textSize="@dimen/_14sdp" />
+                            android:textSize="@dimen/_12sdp" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -587,7 +623,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_10sdp">
 
                 <TextView
                     android:id="@+id/tvSignIn"
@@ -606,8 +644,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_7sdp"
-                    android:layout_marginBottom="@dimen/_17sdp"
                     android:gravity="center"
                     android:text="Login"
                     android:textStyle="bold"
