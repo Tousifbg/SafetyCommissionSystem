@@ -4,19 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +28,9 @@ import com.example.publicsafetycomission.Constant.API_Utils;
 import com.example.publicsafetycomission.Helpers.ApiCallback;
 import com.example.publicsafetycomission.Helpers.NetworkUtils;
 import com.example.publicsafetycomission.Helpers.ShowNow;
+import com.example.publicsafetycomission.adapters.DistrictAdapter;
+import com.example.publicsafetycomission.databaseRef.DBHelperClass;
+import com.example.publicsafetycomission.databaseRef.DataBaseConstant;
 import com.gne.www.lib.PinView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,6 +47,8 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
@@ -47,7 +56,7 @@ import cz.msebera.android.httpclient.Header;
 public class Registeration extends AppCompatActivity {
 
     EditText user_username, user_password,confirm_user_password, contact_no, full_name,
-            cnic,guardian_name,email_edt,union_council,address_edt;
+            cnic,guardian_name,email_edt,union_council,address_edt,district;
     AutoCompleteTextView gender_acTv;
     Button registerBtn;
     TextView loginBtn;
@@ -73,6 +82,15 @@ public class Registeration extends AppCompatActivity {
 
     private TextView dismiss_net_layout;
 
+    ArrayList<HashMap<String,String>> getDistricts = new ArrayList<HashMap<String, String>>();
+    ArrayList<String> distrct_id = new ArrayList<String>();
+    ArrayList<String> distrct_name = new ArrayList<String>();
+    String temp[];
+    private String dist_id;
+
+    DBHelperClass dbHelperClass;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +101,35 @@ public class Registeration extends AppCompatActivity {
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 
         mAuth = FirebaseAuth.getInstance();
+
+        /*getDistricts = dbHelperClass.getDistrictData();
+        Log.e("DIST_Size", String.valueOf(getDistricts.size()));*/
+        try {
+            getDistricts = dbHelperClass.getDistrictData();
+            Log.e("DIST_Size", String.valueOf(getDistricts.size()));
+            if (getDistricts.size() > 0) {
+                temp = new String[getDistricts.size()];
+                for (int i = 0; i < getDistricts.size(); i++) {
+                    HashMap<String, String> map = getDistricts.get(i);
+                    distrct_id.add( map.get(DataBaseConstant.TAG_DIST_ID));
+                    distrct_name.add(map.get(DataBaseConstant.TAG_DIST_NAME));
+                    temp[i]=map.get("project_name2");
+                }
+            }
+            else {
+                Toast.makeText(Registeration.this, "District data missing from API", Toast.LENGTH_SHORT).show();
+            }
+        }catch (NullPointerException e) {
+            Log.e("NullPointerException", e.toString());
+
+        }
+
+        district.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDistrictList();
+            }
+        });
 
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,6 +279,10 @@ public class Registeration extends AppCompatActivity {
                     Toast.makeText(Registeration.this, "Gender is required",
                             Toast.LENGTH_SHORT).show();
                 }
+                else if (dist_id == null) {
+                    Toast.makeText(Registeration.this, "District Name is required",
+                            Toast.LENGTH_SHORT).show();
+                }
                 else if (TextUtils.isEmpty(email))
                 {
                     email_edt.setError("Email is required");
@@ -283,6 +334,30 @@ public class Registeration extends AppCompatActivity {
                 Intent n = new Intent(Registeration.this, Login.class);
                 startActivity(n);
                 layoutTransition();
+            }
+        });
+    }
+
+    private void showDistrictList() {
+        district.requestFocus();
+        final Dialog districtsDilaog = new Dialog(Registeration.this, R.style.dialog_theme);
+        districtsDilaog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        districtsDilaog.setCancelable(true);
+        districtsDilaog.setContentView(R.layout.dist_dialog);
+        districtsDilaog.getWindow().setBackgroundDrawable(new ColorDrawable(0x7f000000));
+        ListView distlist= (ListView) districtsDilaog.findViewById(R.id.countrylist);
+        DistrictAdapter districtAdapter= new DistrictAdapter(Registeration.this,
+                distrct_id,distrct_name,temp);
+        distlist.setAdapter(districtAdapter);
+        districtsDilaog.show();
+
+        distlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                districtsDilaog.dismiss();
+                district.setText(""+distrct_name.get(i));
+                dist_id = distrct_id.get(i);
+                Log.e("dist_id", dist_id);
             }
         });
     }
@@ -381,6 +456,7 @@ public class Registeration extends AppCompatActivity {
         jsonParams.put("complainant_email",email);
         jsonParams.put("complainant_council",council);
         jsonParams.put("complainant_address",address);
+        jsonParams.put("complainant_district_id_fk",Integer.parseInt(dist_id));
 
         Log.e("JSONPARAMS",jsonParams.toString());
 
@@ -486,8 +562,12 @@ public class Registeration extends AppCompatActivity {
         buttonSignIn = findViewById(R.id.buttonSignIn);
         dismiss_net_layout = findViewById(R.id.dismiss_net_layout);
         confirm_user_password = findViewById(R.id.confirm_user_password);
+        district = findViewById(R.id.district_id);
         //tvlogin = findViewById(R.id.tvlogin);
         showNow=new ShowNow(this);
+
+        dbHelperClass = new DBHelperClass(this);
+
     }
 
     @Override

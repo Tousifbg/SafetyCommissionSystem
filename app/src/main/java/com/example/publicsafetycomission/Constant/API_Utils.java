@@ -20,9 +20,9 @@ public class API_Utils {
 
     public static String UPDATE_PROFILE = "https://www.ppsc.kp.gov.pk/Api/complainant_profile_update";
 
-    public static String FORGOT_PASSWORD = "https://bintehawa.hed.gkp.pk/api/forgot_pass";
+    public static String FORGOT_PASSWORD_VERIFY = "https://ppsc.kp.gov.pk/Api/verify_account";
 
-    public static String MY_COMPLAINT_DETAILS = "https://bintehawa.hed.gkp.pk/api/complaintByID";
+    public static String FORGOT_PASSWORD_RESET = "https://ppsc.kp.gov.pk/Api/forget_password_reset";
 
     public static String FEEDBACK_API = "https://bintehawa.hed.gkp.pk/api/add_feedback";
 }
