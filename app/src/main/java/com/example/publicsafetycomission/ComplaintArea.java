@@ -1,21 +1,14 @@
 package com.example.publicsafetycomission;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ThumbnailUtils;
@@ -23,17 +16,36 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.publicsafetycomission.Constant.API_Utils;
 import com.example.publicsafetycomission.Helpers.ApiCallback;
@@ -42,10 +54,16 @@ import com.example.publicsafetycomission.Helpers.FileUtils;
 import com.example.publicsafetycomission.Helpers.NetworkUtils;
 import com.example.publicsafetycomission.Helpers.ShowNow;
 import com.example.publicsafetycomission.adapters.CategoryAdapter;
+import com.example.publicsafetycomission.adapters.CategoryAdapter2;
 import com.example.publicsafetycomission.adapters.DistrictAdapter;
+import com.example.publicsafetycomission.adapters.DistrictAdapter2;
+import com.example.publicsafetycomission.adapters.MyRegisteredComplaintsAdapter;
 import com.example.publicsafetycomission.databaseRef.DBHelperClass;
 import com.example.publicsafetycomission.databaseRef.DataBaseConstant;
+import com.example.publicsafetycomission.model.CategoryModel;
 import com.example.publicsafetycomission.model.ComplaintModel;
+import com.example.publicsafetycomission.model.DistrictModel;
+import com.example.publicsafetycomission.model.RegisteredComplaintModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -55,16 +73,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cz.msebera.android.httpclient.Header;
 
 public class ComplaintArea extends AppCompatActivity {
 
     private static final String TAG = "ComplaintArea";
+    private static final int CAMERA_REQUEST_CODE = 1058;
+    private static final int STORAGE_REQUEST_CODE = 1059;
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -78,18 +99,11 @@ public class ComplaintArea extends AppCompatActivity {
     private String cat_id, cat_name;
     private String dist_id, dist_name;
 
-    ArrayList<HashMap<String,String>> getCategories = new ArrayList<HashMap<String, String>>();
-    ArrayList<String> categ_id = new ArrayList<String>();
-    ArrayList<String> categ_name = new ArrayList<String>();
+    ArrayList<DistrictModel> districtMODELS = new ArrayList<>();
+    private DistrictAdapter2 districtAdapter2;
 
-    ArrayList<HashMap<String,String>> getDistricts = new ArrayList<HashMap<String, String>>();
-    ArrayList<String> distrct_id = new ArrayList<String>();
-    ArrayList<String> distrct_name = new ArrayList<String>();
-
-    String temp[];
-    String temp1[];
-
-    DBHelperClass dbHelperClass;
+    ArrayList<CategoryModel> categoryModels = new ArrayList<>();
+    private CategoryAdapter2 categoryAdapter2;
 
     AsyncHttpClient client;
 
@@ -106,12 +120,23 @@ public class ComplaintArea extends AppCompatActivity {
     private ShowNow showNow;
 
     public static final int PICK_IMG = -1;
+    public static final int PICK_CAM_IMG = -50;
     public static final int PICK_AUDIO = -2;
     public static final int PICK_VIDEO = -3;
     public static final int PICK_DOCS = -4;
 
     private LinearLayout no_internet_layout,complaint_layout;
     private TextView dismiss_net_layout;
+
+    private ScrollView scrollBar;
+
+    private String[] cameraPermissions;
+    private String[] storagePermissions;
+
+    private static final int pic_id = 123;
+    Uri cam_uri;
+
+    private RotateAnimation rotateAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,44 +150,13 @@ public class ComplaintArea extends AppCompatActivity {
         token = pref.getString("token", "No Data");
         Log.e("token",token);
 
-        dbHelperClass = new DBHelperClass(this);
-        try {
-            getCategories = dbHelperClass.getCategoriesData();
-            Log.e("CATEGORIES_Size", String.valueOf(getCategories.size()));
-            if (getCategories.size() > 0) {
-                temp1 = new String[getCategories.size()];
-                for (int i = 0; i < getCategories.size(); i++) {
-                    HashMap<String, String> map = getCategories.get(i);
-                    categ_id.add( map.get(DataBaseConstant.TAG_CATEG_ID));
-                    categ_name.add(map.get(DataBaseConstant.TAG_CATEG_NAME));
-                    temp1[i]=map.get("project_name");
-                }
-            }
-            else {
-                Toast.makeText(ComplaintArea.this, "Categories data missing from API", Toast.LENGTH_SHORT).show();
-            }
-        }catch (NullPointerException e) {
-            Log.e("NullPointerException", e.toString());
-        }
 
-        try {
-            getDistricts = dbHelperClass.getDistrictData();
-            Log.e("DIST_Size", String.valueOf(getDistricts.size()));
-            if (getDistricts.size() > 0) {
-                temp = new String[getDistricts.size()];
-                for (int i = 0; i < getDistricts.size(); i++) {
-                    HashMap<String, String> map = getDistricts.get(i);
-                    distrct_id.add( map.get(DataBaseConstant.TAG_DIST_ID));
-                    distrct_name.add(map.get(DataBaseConstant.TAG_DIST_NAME));
-                    temp[i]=map.get("project_name2");
-                }
-            }
-            else {
-                Toast.makeText(ComplaintArea.this, "District data missing from API", Toast.LENGTH_SHORT).show();
-            }
-        }catch (NullPointerException e) {
-            Log.e("NullPointerException", e.toString());
-
+        if (NetworkUtils.isNetworkConnected(ComplaintArea.this))
+        {
+            fetchDistrictsFromAPI();
+            fetchCategoriesFromAPI();
+        }else {
+            Toast.makeText(this, "No internet", Toast.LENGTH_SHORT).show();
         }
 
         district_id.setOnClickListener(new View.OnClickListener() {
@@ -182,11 +176,13 @@ public class ComplaintArea extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
                 layoutTransition();
             }
         });
 
+        cameraPermissions = new String[]{Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE};
         hasStoragePermission(1);
         image_picker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,19 +219,23 @@ public class ComplaintArea extends AppCompatActivity {
                 comp_detail = complaint_detail.getText().toString();
                 if (TextUtils.isEmpty(cat_id))
                 {
-                    category_id.setError("Select category");
+                    Toast.makeText(ComplaintArea.this, "Select category first", Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(dist_id))
                 {
-                    district_id.setError("Select district");
+                    Toast.makeText(ComplaintArea.this, "Select district first", Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(comp_council))
                 {
                     complaint_council.setError("This field is required");
+                    complaint_council.requestFocus();
+                    return;
                 }
                 else if (TextUtils.isEmpty(comp_detail))
                 {
                     complaint_detail.setError("This field is required");
+                    complaint_detail.requestFocus();
+                    return;
                 }
                 else {
                     if (NetworkUtils.isNetworkConnected(ComplaintArea.this))
@@ -264,6 +264,35 @@ public class ComplaintArea extends AppCompatActivity {
                 }
             }
         });
+
+        //HIGHLIGHT SCROLLVIEW
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollBar.scrollBy(0, -1);
+                        scrollBar.scrollBy(0, 1);
+                    }
+                });
+            }
+        }, 0, 1500);
+
+
+        //rotate animation
+        rotateAnimation = new RotateAnimation(0, 360f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+        rotateAnimation.setDuration(1000);
+        rotateAnimation.setRepeatCount(Animation.ABSOLUTE);
+        image_picker.startAnimation(rotateAnimation);
+        videos_picker.startAnimation(rotateAnimation);
+        doc_picker.startAnimation(rotateAnimation);
+        audios_picker.startAnimation(rotateAnimation);
     }
 
     private void postComplaint() {
@@ -295,11 +324,85 @@ public class ComplaintArea extends AppCompatActivity {
     }
 
     private void pickImage() {
+
+        showImagePickDialog();
+    }
+
+    private void showImagePickDialog() {
+        //options to display in dialog
+        String[] options = {"Camera", "Gallery"};
+        //dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pick Image:")
+                .setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //handle item clicks
+                        if (which==0){
+                            //camera clicked
+                            if (checkCameraPermission()){
+                                //allowed, open camera
+                                pickFromCamera();
+                            }
+                            else {
+                                //not allowed, request
+                                requestCameraPermission();
+                            }
+                        }
+                        else {
+                            //gallery clicked
+                            if (hasStoragePermission(1)){
+                                //allowed, open gallery
+                                pickFromGallery();
+                            }
+                            else {
+                                //not allowed, request
+                                requestStoragePermission();
+                            }
+                        }
+                    }
+                })
+                .show();
+    }
+
+    private void requestStoragePermission() {
+        ActivityCompat.requestPermissions(this, storagePermissions, STORAGE_REQUEST_CODE);
+    }
+
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
+    }
+
+    private boolean checkCameraPermission() {
+        boolean result = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) ==
+                (PackageManager.PERMISSION_GRANTED);
+
+        boolean result1 = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                (PackageManager.PERMISSION_GRANTED);
+
+        return result && result1;
+    }
+
+    private void pickFromGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
         photoPickerIntent.setType("image/*");
         photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         launchImageActivity.launch(Intent.createChooser(photoPickerIntent, "Pictures"));
-        //startActivityForResult(Intent.createChooser(photoPickerIntent,"Pictures"), GALLERY_REQUEST);
+    }
+
+    private void pickFromCamera() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera");
+        cam_uri = ComplaintArea.this.getContentResolver().
+                insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cam_uri);
+
+        //startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE); // OLD WAY
+        startCamera.launch(cameraIntent);                // VERY NEW WAY
     }
 
     private void pickDocs() {
@@ -390,6 +493,48 @@ public class ComplaintArea extends AppCompatActivity {
                             } catch (Exception e) {
                                 Log.i("TAG", "Some exception " + e);
                             }
+                        }
+                    }
+                }
+            });
+
+    //new way for onActivityResult
+    //For camera
+    ActivityResultLauncher<Intent> startCamera = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        //Uri image_uri = cam_uri;
+                        Log.e("URI",cam_uri.toString());
+                        try {
+                            String imgPath = fileUtils.getPath(ComplaintArea.this, cam_uri);
+                            Log.e("FILES",imgPath);
+
+                            if (imgPath != null){
+                                filesList.add(new File(imgPath));
+
+                                Toast.makeText(ComplaintArea.this, "Image picked", Toast.LENGTH_SHORT).show();
+                                //imageEdt.setText("Image Picked !");
+                                layout_tick.setVisibility(View.VISIBLE);
+                                image_tick.setVisibility(View.VISIBLE);
+
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(ComplaintArea.this.
+                                        getContentResolver(), cam_uri);
+
+                                image_tick.setImageBitmap(bitmap);
+
+                            } else {
+                                Toast.makeText(ComplaintArea.this, "Image not picked",
+                                        Toast.LENGTH_SHORT).show();
+                                //imageEdt.setText("Image");
+                                layout_tick.setVisibility(View.GONE);
+                                image_tick.setVisibility(View.INVISIBLE);
+                            }
+                        } catch (Exception e) {
+                            Log.i("TAG", "Some exception " + e);
                         }
                     }
                 }
@@ -614,7 +759,9 @@ public class ComplaintArea extends AppCompatActivity {
         if (grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (requestCode == PICK_IMG)
-                pickImage();
+                pickFromGallery();
+            if (requestCode == PICK_CAM_IMG)
+                pickFromCamera();
             if (requestCode == PICK_AUDIO)
                 pickAudio();
             if (requestCode == PICK_VIDEO)
@@ -630,19 +777,45 @@ public class ComplaintArea extends AppCompatActivity {
         categoryDilaog.setCancelable(true);
         categoryDilaog.setContentView(R.layout.cat_dialog);
         categoryDilaog.getWindow().setBackgroundDrawable(new ColorDrawable(0x7f000000));
-        ListView cattlist= (ListView) categoryDilaog.findViewById(R.id.countrylist);
-        CategoryAdapter categoryAdapter= new CategoryAdapter(ComplaintArea.this,
-                categ_id,categ_name,temp1);
-        cattlist.setAdapter(categoryAdapter);
+        EditText searchBar = (EditText) categoryDilaog.findViewById(R.id.searchBar);
+        RecyclerView catList= (RecyclerView) categoryDilaog.findViewById(R.id.districtList);
+        catList.setHasFixedSize(true);
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        catList.setLayoutManager(layoutManager);
         categoryDilaog.show();
+        try {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    categoryAdapter2 = new CategoryAdapter2(ComplaintArea.this,
+                            categoryModels,categoryDilaog);
+                    catList.setAdapter(categoryAdapter2);
+                    categoryAdapter2.notifyDataSetChanged();
+                    //district_id.setText(""+distrct_name.get(i));
+                }
+            });
+        } catch (Exception e) {
+            Log.e("ERRR", e.getMessage());
+            String error = e.getMessage().toString();
+            Toast.makeText(ComplaintArea.this, error,
+                    Toast.LENGTH_SHORT).show();
+        }
 
-        cattlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                categoryDilaog.dismiss();
-                category_id.setText(""+categ_name.get(i));
-                cat_id = categ_id.get(i);
-                Log.e("cat_id", cat_id);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                categoryAdapter2.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -654,21 +827,61 @@ public class ComplaintArea extends AppCompatActivity {
         districtsDilaog.setCancelable(true);
         districtsDilaog.setContentView(R.layout.dist_dialog);
         districtsDilaog.getWindow().setBackgroundDrawable(new ColorDrawable(0x7f000000));
-        ListView distlist= (ListView) districtsDilaog.findViewById(R.id.countrylist);
-        DistrictAdapter districtAdapter= new DistrictAdapter(ComplaintArea.this,
-                distrct_id,distrct_name,temp);
-        distlist.setAdapter(districtAdapter);
+        EditText searchBar = (EditText) districtsDilaog.findViewById(R.id.searchBar);
+        RecyclerView districtList= (RecyclerView) districtsDilaog.findViewById(R.id.districtList);
+        districtList.setHasFixedSize(true);
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        districtList.setLayoutManager(layoutManager);
         districtsDilaog.show();
+        try {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    districtAdapter2 = new DistrictAdapter2(ComplaintArea.this,
+                            districtMODELS,districtsDilaog);
+                    districtList.setAdapter(districtAdapter2);
+                    districtAdapter2.notifyDataSetChanged();
+                    //district_id.setText(""+distrct_name.get(i));
+                }
+            });
+        } catch (Exception e) {
+            Log.e("ERRR", e.getMessage());
+            String error = e.getMessage().toString();
+            Toast.makeText(ComplaintArea.this, error,
+                    Toast.LENGTH_SHORT).show();
+        }
 
-        distlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                districtsDilaog.dismiss();
-                district_id.setText(""+distrct_name.get(i));
-                dist_id = distrct_id.get(i);
-                Log.e("dist_id", dist_id);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                districtAdapter2.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
+    }
+
+    public void recyclerTouchMethod(String id, String name) {
+        district_id.setText(""+name);
+        dist_id = id;
+        Log.e("DISTRICT_values","name: "+district_id.getText().toString()+
+                "\nid: "+dist_id);
+    }
+
+    public void recyclerTouchMethod2(String id, String name) {
+        category_id.setText(""+name);
+        cat_id = id;
+        Log.e("CATEGORY_values","name: "+category_id.getText().toString()+
+                "\nid: "+cat_id);
     }
 
     private AsyncHttpClient getClient(){
@@ -682,7 +895,6 @@ public class ComplaintArea extends AppCompatActivity {
 
         return client;
     }
-
 
     private void initViews() {
         submitComplaint = findViewById(R.id.submitComplaint);
@@ -711,9 +923,125 @@ public class ComplaintArea extends AppCompatActivity {
         complaintModel = new ComplaintModel();
         apiController = new ApiController(this);
         showNow = new ShowNow(this);
+
+        scrollBar = findViewById(R.id.scrollBar);
     }
 
     private void layoutTransition() {
         this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+    }
+
+    private void fetchDistrictsFromAPI() {
+        RequestParams jsonParams = new RequestParams();
+
+        getClient().post(API_Utils.DISTRICTS, jsonParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                String json = new String(responseBody);
+                Log.d("RESPONSE", "onSuccess: " + json);
+
+                try {
+                    JSONObject object=new JSONObject(json);
+                    JSONArray jsonArray = object.getJSONArray("districts");
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObjectNew = jsonArray.getJSONObject(i);
+
+                        dist_id = jsonObjectNew.getString("district_id");
+                        dist_name = jsonObjectNew.getString("district_name");
+                        String district_status = jsonObjectNew.getString("district_status");
+                        Log.d("RESPONSE_DATA","dist_id: " +dist_id+
+                                "\ndist_name: " +dist_name+
+                                "\ndistrict_status: " +district_status);
+
+                        DistrictModel model = new DistrictModel(dist_id,dist_name);
+                        districtMODELS.add(model);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(ComplaintArea.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                String json = new String(responseBody);
+                Log.e("REPONSE2", "onSuccess: " + json);
+                Toast.makeText(ComplaintArea.this, json, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancel() {
+                super.onCancel();
+            }
+        });
+    }
+
+    private void fetchCategoriesFromAPI() {
+        RequestParams jsonParams = new RequestParams();
+        jsonParams.put("token",token);
+
+
+        Log.e("JSON_DATA_POST", String.valueOf(jsonParams));
+
+        getClient().post(API_Utils.CATEGORIES, jsonParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                String json = new String(responseBody);
+                Log.d("RESPONSE", "onSuccess: " + json);
+
+                try {
+                    JSONObject object=new JSONObject(json);
+                    JSONArray jsonArray = object.getJSONArray("complaint_categories");
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObjectNew = jsonArray.getJSONObject(i);
+
+                        cat_id = jsonObjectNew.getString("complaint_category_id");
+                        cat_name = jsonObjectNew.getString("complaint_category_name");
+                        Log.d("RESPONSE_DATA","cat_id: " +cat_id+ "\ncat_name: " +cat_name);
+
+
+                        CategoryModel model = new CategoryModel(cat_id,cat_name);
+                        categoryModels.add(model);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(ComplaintArea.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                String json = new String(responseBody);
+                Log.e("REPONSE2", "onSuccess: " + json);
+                Toast.makeText(ComplaintArea.this, json, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancel() {
+                super.onCancel();
+            }
+        });
     }
 }

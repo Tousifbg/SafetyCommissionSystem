@@ -15,6 +15,7 @@ import com.example.publicsafetycomission.ComplaintArea;
 import com.example.publicsafetycomission.Constant.API_Utils;
 import com.example.publicsafetycomission.Dashboard;
 import com.example.publicsafetycomission.Login;
+import com.example.publicsafetycomission.ViewComplaints;
 import com.example.publicsafetycomission.model.ComplaintModel;
 import com.example.publicsafetycomission.model.LoginModel;
 import com.loopj.android.http.AsyncHttpClient;
@@ -105,7 +106,7 @@ public class ApiController {
 
                         helper.scheduleDismiss();
                         String json = new String(responseBody);
-                        Log.d("SUCCESS", "onSuccess: " + json);
+                        Log.e("SUCCESS", "onSuccess: " + json);
                         try {
                             JSONObject object=new JSONObject(json);
                             if(callBack!=null){

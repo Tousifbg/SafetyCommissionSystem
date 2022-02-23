@@ -1,6 +1,7 @@
 package com.example.publicsafetycomission.model;
 
 public class RegisteredComplaintModel {
+    String complaint_id;
     String complaint_source;
     String complaint_council;
     String complaint_detail;
@@ -14,7 +15,8 @@ public class RegisteredComplaintModel {
     public RegisteredComplaintModel() {
     }
 
-    public RegisteredComplaintModel(String complaint_source, String complaint_council, String complaint_detail, String complaint_entry_timestamp, String complainant_name, String district_name, String complaint_status_title, String complaint_status_color, String complaint_category_name) {
+    public RegisteredComplaintModel(String complaint_id, String complaint_source, String complaint_council, String complaint_detail, String complaint_entry_timestamp, String complainant_name, String district_name, String complaint_status_title, String complaint_status_color, String complaint_category_name) {
+        this.complaint_id = complaint_id;
         this.complaint_source = complaint_source;
         this.complaint_council = complaint_council;
         this.complaint_detail = complaint_detail;
@@ -24,6 +26,14 @@ public class RegisteredComplaintModel {
         this.complaint_status_title = complaint_status_title;
         this.complaint_status_color = complaint_status_color;
         this.complaint_category_name = complaint_category_name;
+    }
+
+    public String getComplaint_id() {
+        return complaint_id;
+    }
+
+    public void setComplaint_id(String complaint_id) {
+        this.complaint_id = complaint_id;
     }
 
     public String getComplaint_source() {

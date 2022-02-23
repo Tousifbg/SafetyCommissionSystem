@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +23,7 @@ import com.example.publicsafetycomission.Helpers.NetworkUtils;
 import com.example.publicsafetycomission.Helpers.ShowNow;
 import com.example.publicsafetycomission.adapters.MyRegisteredComplaintsAdapter;
 import com.example.publicsafetycomission.model.RegisteredComplaintModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -27,13 +32,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import cz.msebera.android.httpclient.Header;
 
 public class ViewComplaints extends AppCompatActivity {
 
-    private ImageView btnBack;
     private RecyclerView my_complaint_list;
     private AsyncHttpClient client;
     SharedPreferences pref;
@@ -47,6 +55,10 @@ public class ViewComplaints extends AppCompatActivity {
     private LinearLayout no_internet_layout;
     private TextView dismiss_net_layout;
     private LottieAnimationView animationView2,animationView;
+
+    private FloatingActionButton add_complaints;
+    private ImageView btnBack;
+    private TextView logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +105,43 @@ public class ViewComplaints extends AppCompatActivity {
             });
         }
 
+     /*   add_complaints.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewComplaints.this, ComplaintArea.class);
+                startActivity(intent);
+                layoutTransition();
+            }
+        });*/
+
+   /*     logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor = pref.edit();
+
+                for (String key : pref.getAll().keySet())
+                {
+                    if (key.contains("token"))
+                    {
+                        editor.remove(key);
+                        editor.commit();
+                    }
+                }
+
+                Toast.makeText(ViewComplaints.this, "You are logged out", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ViewComplaints.this, Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+                layoutTransition();
+            }
+        });*/
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
+                layoutTransition();
             }
         });
     }
@@ -130,6 +175,7 @@ public class ViewComplaints extends AppCompatActivity {
 
                         int size = jsonArray.length();
                         Log.d("LISTSIZE", String.valueOf(size));
+                        String complaint_id = jsonObjectNew.getString("complaint_id");
                         String complaint_source = jsonObjectNew.getString("complaint_source");
                         String complaint_council = jsonObjectNew.getString("complaint_council");
                         String complaint_detail = jsonObjectNew.getString("complaint_detail");
@@ -140,15 +186,20 @@ public class ViewComplaints extends AppCompatActivity {
                         String complaint_status_color = jsonObjectNew.getString("complaint_status_color");
                         String complaint_category_name = jsonObjectNew.getString("complaint_category_name");
 
-                        RegisteredComplaintModel model = new RegisteredComplaintModel(complaint_source, complaint_council,
-                                complaint_detail, complaint_entry_timestamp,complainant_name,district_name,
-                                complaint_status_title,complaint_status_color,complaint_category_name);
+                        RegisteredComplaintModel model = new RegisteredComplaintModel(complaint_id,complaint_source,
+                                complaint_council, complaint_detail, complaint_entry_timestamp,complainant_name,
+                                district_name, complaint_status_title,complaint_status_color,complaint_category_name);
                         registeredComplaintModels.add(model);
 
-                        Log.d("RESPONSE_DATA", "complaint_source: " +complaint_source+ "\ncomplaint_council: " +complaint_council+
-                                "\ncomplaint_detail: " +complaint_detail+ "\ncomplaint_entry_timestamp: "
-                                +complaint_entry_timestamp+ "\ncomplainant_name: " +complainant_name+ "\ndistrict_name: " +district_name+
-                                "\ncomplaint_status_title: " +complaint_status_title+ "\ncomplaint_status_color: " +complaint_status_color+
+                        Log.d("RESPONSE_DATA", "complaint_id: " +complaint_id+
+                                "\ncomplaint_source: " +complaint_source+
+                                "\ncomplaint_council: " +complaint_council+
+                                "\ncomplaint_detail: " +complaint_detail+
+                                "\ncomplaint_entry_timestamp: " +complaint_entry_timestamp+
+                                "\ncomplainant_name: " +complainant_name+
+                                "\ndistrict_name: " +district_name+
+                                "\ncomplaint_status_title: " +complaint_status_title+
+                                "\ncomplaint_status_color: " +complaint_status_color+
                                 "\ncomplaint_category_name: " +complaint_category_name);
                     }
                     try {
@@ -159,14 +210,13 @@ public class ViewComplaints extends AppCompatActivity {
                                         registeredComplaintModels);
                                 my_complaint_list.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
-                                Toast.makeText(ViewComplaints.this, "Your complaints",
-                                        Toast.LENGTH_SHORT).show();
+                                showNow.desplayPositiveToast(ViewComplaints.this,"Your Complaints");
                             }
                         });
                     } catch (Exception e) {
                         Log.e("ERRR", e.getMessage());
                         String error = e.getMessage().toString();
-                        Toast.makeText(ViewComplaints.this, "TOUSIF : " + error,
+                        Toast.makeText(ViewComplaints.this,error,
                                 Toast.LENGTH_SHORT).show();
                     }
 
@@ -210,11 +260,137 @@ public class ViewComplaints extends AppCompatActivity {
 
     private void initViews() {
         my_complaint_list = findViewById(R.id.my_complaint_list);
-        btnBack = findViewById(R.id.btnBack);
         no_internet_layout = findViewById(R.id.no_internet_layout);
         dismiss_net_layout = findViewById(R.id.dismiss_net_layout);
         animationView2 = findViewById(R.id.animationView2);
         animationView = findViewById(R.id.animationView);
+        add_complaints = findViewById(R.id.add_complaints);
+        btnBack = findViewById(R.id.btnBack);
+        logout = findViewById(R.id.buttonLogout);
         showNow = new ShowNow(this);
+    }
+
+    public void withDrawComplaintDialog(String comp_id){
+
+        final android.app.AlertDialog alert_dialog;
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.complaint_withdrawn_dialog, null);
+        builder.setView(view);
+        final EditText withdraw_edt = view.findViewById(R.id.withdraw_edt);
+        TextView btn_withdraw = view.findViewById(R.id.btn_withdraw);
+        TextView tv_no = view.findViewById(R.id.tv_no);
+
+        alert_dialog = builder.create();
+        alert_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        alert_dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationTheme;
+        alert_dialog.show();
+
+        btn_withdraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String remarks = withdraw_edt.getText().toString().trim();
+                if (TextUtils.isEmpty(remarks)){
+                    withdraw_edt.setError("Enter your remarks");
+                    withdraw_edt.requestFocus();
+                    return;
+                }
+                else {
+                    if (NetworkUtils.isNetworkConnected(ViewComplaints.this))
+                    {
+                        //call withdraw complaint API
+                        RequestParams jsonParams = new RequestParams();
+
+                        jsonParams.put("token", token);
+                        jsonParams.put("complaint_id_fk", comp_id);
+                        jsonParams.put("complaint_remarks_detail", remarks);
+
+                        Log.e("JSONPARAMS", jsonParams.toString());
+
+                        getClient().post(API_Utils.WITHDRAW_COMPLAINT, jsonParams,
+                                new AsyncHttpResponseHandler() {
+
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                                showNow.showLoadingDialog(ViewComplaints.this);
+                            }
+
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                                String json = new String(responseBody);
+                                Log.e("RESPONSE", "onSuccess: " + json);
+                                showNow.scheduleDismiss();
+
+                                try {
+
+                                    JSONObject object = new JSONObject(json);
+                                    int api_res_success = object.getInt("response");
+                                    String api_res_success_msg = object.getString("response_msg");
+                                    Log.e("api_res_success_msg", String.valueOf(api_res_success_msg));
+                                    Log.e("api_res_success", String.valueOf(api_res_success));
+
+                                    if (api_res_success == 1) {
+                                        alert_dialog.dismiss();
+                                        showNow.desplayPositiveToast(ViewComplaints.this, api_res_success_msg);
+                                        registeredComplaintModels.clear();
+                                        fetchMyComplaints();
+                                    } else if (api_res_success == 0) {
+                                        alert_dialog.dismiss();
+                                        showNow.desplayErrorToast(ViewComplaints.this, api_res_success_msg);
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e("JSONException", "onSuccess: " + e.getMessage());
+
+                                    JSONObject object = null;
+                                    try {
+                                        object = new JSONObject(json);
+                                        int api_res_success = object.getInt("response");
+                                        String api_res_success_msg = object.getString("response_msg");
+                                        Log.e("api_res_success_msg", String.valueOf(api_res_success_msg));
+
+                                        showNow.desplayErrorToast(ViewComplaints.this, api_res_success_msg);
+                                        showNow.scheduleDismiss();
+                                    } catch (JSONException jsonException) {
+                                        jsonException.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                String json = new String(responseBody);
+                                Log.e("onFailure", "onSuccess: " + json);
+                                showNow.desplayErrorToast(ViewComplaints.this, json);
+                                showNow.scheduleDismiss();
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                super.onCancel();
+                                showNow.scheduleDismiss();
+                            }
+                        });
+                    }
+                    else {
+                        Toast.makeText(ViewComplaints.this, "No internet",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        tv_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert_dialog.dismiss();
+            }
+        });
+    }
+
+    private void layoutTransition() {
+        this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
 }

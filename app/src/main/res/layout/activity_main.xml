@@ -32,11 +32,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/logo"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center"
                 android:text="Public safety Commission, KP"
-                android:layout_below="@+id/logo"
                 android:textSize="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:textStyle="bold" />
 
         </RelativeLayout>
@@ -134,9 +134,10 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/round_border_edittext"
             android:text="Login"
+            android:textSize="@dimen/_12sdp"
             android:shadowColor="@color/white"
             android:outlineSpotShadowColor="@color/green"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:backgroundTint="@color/green"
             android:textColor="@android:color/white" />
 
@@ -144,11 +145,11 @@
             android:id="@+id/forgetpassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_20sdp"
             android:text="Forget your password?"
             android:textColor="@color/black"
-            android:textSize="@dimen/_11sdp"
+            android:textSize="@dimen/_12sdp"
             android:textStyle="bold" />
 
         <TextView
@@ -156,25 +157,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:alpha="0.9"
             android:gravity="center"
             android:text="Dont have Account ?"
             android:textStyle="italic"
             android:textColor="@color/mycolorr"
-            android:textSize="@dimen/_13sdp" />
+            android:textSize="@dimen/_12sdp" />
 
         <TextView
             android:id="@+id/register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center"
             android:text="Signup"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="@dimen/_13sdp" />
+            android:textSize="@dimen/_12sdp" />
     </LinearLayout>
 
         <LinearLayout

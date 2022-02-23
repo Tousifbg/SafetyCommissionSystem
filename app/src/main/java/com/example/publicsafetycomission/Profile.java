@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,9 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -39,6 +43,8 @@ public class Profile extends AppCompatActivity {
     private LinearLayout no_internet_layout,data_layout;
     private TextView dismiss_net_layout;
 
+    private ScrollView scrollbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +57,24 @@ public class Profile extends AppCompatActivity {
 
         initVIEWS();
 
+        scrollbar = findViewById(R.id.scrollBar);
+
         if (NetworkUtils.isNetworkConnected(Profile.this))
         {
             fetchProfileData();
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollbar.scrollBy(0, -1);
+                            scrollbar.scrollBy(0, 1);
+                        }
+                    });
+                }
+            }, 0, 1500);
         }
         else {
             no_internet_layout.setVisibility(View.VISIBLE);
@@ -65,6 +86,7 @@ public class Profile extends AppCompatActivity {
                     if (NetworkUtils.isNetworkConnected(Profile.this))
                     {
                         no_internet_layout.setVisibility(View.GONE);
+                        fetchProfileData();
                         data_layout.setVisibility(View.VISIBLE);
                     }
                     else {
@@ -75,13 +97,17 @@ public class Profile extends AppCompatActivity {
             });
         }
 
-
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+                layoutTransition();
             }
         });
+    }
+
+    private void layoutTransition() {
+        this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
 
     private void fetchProfileData() {
@@ -125,6 +151,7 @@ public class Profile extends AppCompatActivity {
                     String complainant_guardian_name = jsonObject.optString("complainant_guardian_name");
                     String complainant_email = jsonObject.optString("complainant_email");
                     String complainant_district_id_fk = jsonObject.optString("complainant_district_id_fk");
+                    String complainant_district_name = jsonObject.optString("complainant_district_name");
                     String complainant_council = jsonObject.optString("complainant_council");
                     String complainant_address = jsonObject.optString("complainant_address");
                     String complainant_contact = jsonObject.optString("complainant_contact");
@@ -135,20 +162,21 @@ public class Profile extends AppCompatActivity {
                             "\ncomplainant_gender: " +complainant_gender+ "\ncomplainant_guardian_name: "
                             +complainant_guardian_name+ "\ncomplainant_email: " +complainant_email+
                             "\ncomplainant_district_id_fk: " +complainant_district_id_fk+
+                            "\ncomplainant_district_name: " +complainant_district_name+
                             "\ncomplainant_council: " +complainant_council+
                             "\ncomplainant_address: " +complainant_address+
                             "\ncomplainant_contact: " +complainant_contact+
                             "\nuser_name: " +user_name);
 
-                    Toast.makeText(Profile.this, "Got data",
-                            Toast.LENGTH_SHORT).show();
+                    showNow.desplayPositiveToast(Profile.this,"User Information");
+
 
                     full_name.setText(complainant_name);
                     cnic.setText(complainant_cnic);
                     gender.setText(complainant_gender);
                     guardian.setText(complainant_guardian_name);
                     email.setText(complainant_email);
-                    district.setText(complainant_district_id_fk);
+                    district.setText(complainant_district_name);
                     council.setText(complainant_council);
                     address.setText(complainant_address);
                     contact.setText(complainant_contact);

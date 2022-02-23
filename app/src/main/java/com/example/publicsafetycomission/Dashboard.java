@@ -10,7 +10,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.publicsafetycomission.Constant.API_Utils;
@@ -32,7 +36,6 @@ import cz.msebera.android.httpclient.Header;
 public class Dashboard extends AppCompatActivity {
 
     CardView complaintregister,viewcomplaints,help_btn,about_btn;
-    ImageView buttonLogout,profile;
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -47,6 +50,11 @@ public class Dashboard extends AppCompatActivity {
 
     AsyncHttpClient client;
     ShowNow showNow;
+
+    private ImageView profile;
+    private TextView logout;
+
+    private LinearLayout linearLayout10,linearLayout4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +87,7 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        buttonLogout.setOnClickListener(new View.OnClickListener() {
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor = pref.edit();
@@ -112,6 +120,15 @@ public class Dashboard extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Animation topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation1);
+        Animation bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation1);
+        linearLayout4.setAnimation(bottomAnim);
+        linearLayout10.setAnimation(topAnim);
+    }
+
     private void layoutTransition() {
         this.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
@@ -133,8 +150,10 @@ public class Dashboard extends AppCompatActivity {
         viewcomplaints = findViewById(R.id.viewcomplaints);
         help_btn = findViewById(R.id.help_btn);
         about_btn = findViewById(R.id.about_btn);
-        buttonLogout = findViewById(R.id.buttonLogout);
         profile = findViewById(R.id.profile);
+        logout = findViewById(R.id.buttonLogout);
+        linearLayout4 = findViewById(R.id.linearLayout4);
+        linearLayout10 = findViewById(R.id.linearLayout10);
 
         dbHelperClass = new DBHelperClass(this);
         showNow=new ShowNow(this);

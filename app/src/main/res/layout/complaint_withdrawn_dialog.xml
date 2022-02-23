@@ -42,8 +42,8 @@
                     android:layout_margin="3dp"
                     android:includeFontPadding="false"
                     android:padding="5dp"
+                    android:text="Withdraw Complaint ?"
                     android:textStyle="bold"
-                    android:text="Recover your password"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@android:color/white" />
 
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:includeFontPadding="false"
-                    android:text="Enter your registered email address below \nwe will recover your password"
+                    android:text="Your complaint will be withdrawn completely from our system"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@android:color/white" />
             </LinearLayout>
@@ -77,16 +77,15 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/email_address"
+                        android:id="@+id/withdraw_edt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/round_border_edittext"
-                        android:drawableLeft="@drawable/email_icon"
                         android:drawablePadding="10dp"
-                        android:hint="Type your registered email"
-                        android:inputType="textEmailAddress"
+                        android:hint="Remarks..."
+                        android:inputType="textMultiLine"
                         android:padding="@dimen/_10sdp"
-                        android:singleLine="true"
+                        android:singleLine="false"
                         android:textColor="@color/mytextcolor"
                         android:textColorHint="@color/mytextcolor"
                         android:textSize="@dimen/_14sdp" />
@@ -155,7 +154,7 @@
 
                 </LinearLayout>
                 <TextView
-                    android:id="@+id/btn_get_Code"
+                    android:id="@+id/btn_withdraw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_border_edittext"
@@ -165,7 +164,7 @@
                     android:layout_marginTop="15dp"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:text="Get Code"
+                    android:text="Withdraw"
                     android:textSize="15sp"
                     android:textColor="@android:color/white" />
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -15,25 +14,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.publicsafetycomission.ComplaintArea;
 import com.example.publicsafetycomission.R;
-import com.example.publicsafetycomission.ViewComplaints;
+import com.example.publicsafetycomission.model.CategoryModel;
 import com.example.publicsafetycomission.model.DistrictModel;
-import com.example.publicsafetycomission.model.RegisteredComplaintModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DistrictAdapter2 extends RecyclerView.Adapter<DistrictAdapter2.ViewHolder>
+public class CategoryAdapter2 extends RecyclerView.Adapter<CategoryAdapter2.ViewHolder>
             implements Filterable {
     private Context mContext;
-    private List<DistrictModel> districtModels;
+    private List<CategoryModel> categoryModels;
     Dialog dialog;
-    public List<DistrictModel> mFilteredList;
+    public List<CategoryModel> mFilteredList;
 
-    public DistrictAdapter2(Context mContext, List<DistrictModel> districtModels, Dialog dialog) {
+    public CategoryAdapter2(Context mContext, List<CategoryModel> categoryModels, Dialog dialog) {
         this.mContext = mContext;
-        this.districtModels = districtModels;
+        this.categoryModels = categoryModels;
         this.dialog = dialog;
-        this.mFilteredList = districtModels;
+        this.mFilteredList = categoryModels;
     }
 
 
@@ -48,16 +46,16 @@ public class DistrictAdapter2 extends RecyclerView.Adapter<DistrictAdapter2.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final DistrictModel districtMod = mFilteredList.get(position);
+        final CategoryModel categoryMod = mFilteredList.get(position);
 
-        holder.district_name.setText(districtMod.getDistrict_name());
+        holder.district_name.setText(categoryMod.getComplaint_category_name());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                ((ComplaintArea) mContext).recyclerTouchMethod(districtMod.getDistrict_id(),
-                        districtMod.getDistrict_name());
+                ((ComplaintArea) mContext).recyclerTouchMethod2(categoryMod.getComplaint_category_id(),
+                        categoryMod.getComplaint_category_name());
             }
         });
     }
@@ -78,17 +76,19 @@ public class DistrictAdapter2 extends RecyclerView.Adapter<DistrictAdapter2.View
 
                 if (charString.isEmpty()) {
 
-                    mFilteredList = districtModels;
+                    mFilteredList = categoryModels;
                 } else {
 
-                    List<DistrictModel> filteredList = new ArrayList<>();
+                    List<CategoryModel> filteredList = new ArrayList<>();
 
-                    for (DistrictModel androidVersion : districtModels) {
+                    for (CategoryModel androidVersion : categoryModels) {
 
-                        if (androidVersion.getDistrict_name().toLowerCase().contains(charString)) {
+                        if (androidVersion.getComplaint_category_name().toLowerCase().
+                                contains(charString)) {
 
                             filteredList.add(androidVersion);
-                        }else if (androidVersion.getDistrict_name().toLowerCase().contains(charString)){
+                        }else if (androidVersion.getComplaint_category_name().
+                                toLowerCase().contains(charString)){
 
                             filteredList.add(androidVersion);
                         }
@@ -104,7 +104,7 @@ public class DistrictAdapter2 extends RecyclerView.Adapter<DistrictAdapter2.View
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mFilteredList = (ArrayList<DistrictModel>) filterResults.values;
+                mFilteredList = (ArrayList<CategoryModel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

@@ -3,15 +3,21 @@ package com.example.publicsafetycomission;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -21,16 +27,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.publicsafetycomission.Constant.API_Utils;
 import com.example.publicsafetycomission.Helpers.ApiCallback;
 import com.example.publicsafetycomission.Helpers.NetworkUtils;
 import com.example.publicsafetycomission.Helpers.ShowNow;
 import com.example.publicsafetycomission.adapters.DistrictAdapter;
+import com.example.publicsafetycomission.adapters.DistrictAdapter2;
 import com.example.publicsafetycomission.databaseRef.DBHelperClass;
 import com.example.publicsafetycomission.databaseRef.DataBaseConstant;
+import com.example.publicsafetycomission.model.DistrictModel;
 import com.gne.www.lib.PinView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,11 +55,14 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
@@ -69,7 +83,7 @@ public class Registeration extends AppCompatActivity {
     ShowNow showNow;
     private AsyncHttpClient client;
 
-    private LinearLayout register_fields_layout,otp_verification_layout,no_internet_layout;
+    private LinearLayout register_fields_layout,otp_verification_layout,no_internet_layout,bottomLayout;
 
     private static final String KEY_VERIFICATION_ID = "key_verification_id";
     private String verificationId;
@@ -82,14 +96,12 @@ public class Registeration extends AppCompatActivity {
 
     private TextView dismiss_net_layout;
 
-    ArrayList<HashMap<String,String>> getDistricts = new ArrayList<HashMap<String, String>>();
-    ArrayList<String> distrct_id = new ArrayList<String>();
-    ArrayList<String> distrct_name = new ArrayList<String>();
-    String temp[];
-    private String dist_id;
+    private String dist_id,dist_name;
 
-    DBHelperClass dbHelperClass;
+    private ScrollView scrollBar;
 
+    ArrayList<DistrictModel> districtMODELS = new ArrayList<>();
+    private DistrictAdapter distAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,27 +114,30 @@ public class Registeration extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        /*getDistricts = dbHelperClass.getDistrictData();
-        Log.e("DIST_Size", String.valueOf(getDistricts.size()));*/
-        try {
-            getDistricts = dbHelperClass.getDistrictData();
-            Log.e("DIST_Size", String.valueOf(getDistricts.size()));
-            if (getDistricts.size() > 0) {
-                temp = new String[getDistricts.size()];
-                for (int i = 0; i < getDistricts.size(); i++) {
-                    HashMap<String, String> map = getDistricts.get(i);
-                    distrct_id.add( map.get(DataBaseConstant.TAG_DIST_ID));
-                    distrct_name.add(map.get(DataBaseConstant.TAG_DIST_NAME));
-                    temp[i]=map.get("project_name2");
-                }
-            }
-            else {
-                Toast.makeText(Registeration.this, "District data missing from API", Toast.LENGTH_SHORT).show();
-            }
-        }catch (NullPointerException e) {
-            Log.e("NullPointerException", e.toString());
 
+        if (NetworkUtils.isNetworkConnected(Registeration.this))
+        {
+            fetchDistrictsFromAPI();
+        }else {
+            Toast.makeText(this, "No internet", Toast.LENGTH_SHORT).show();
         }
+
+        scrollBar = findViewById(R.id.scrollBar);
+        //HIGHLIGHT SCROLLVIEW
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollBar.scrollBy(0, -1);
+                        scrollBar.scrollBy(0, 1);
+                    }
+                });
+            }
+        }, 0, 1500);
+
 
         district.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,96 +226,115 @@ public class Registeration extends AppCompatActivity {
                 council = union_council.getText().toString();
                 address = address_edt.getText().toString();
 
-                if (TextUtils.isEmpty(username))
+                if (TextUtils.isEmpty(fullName))
                 {
-                    user_username.setError("Username is required");
-                    Toast.makeText(Registeration.this, "Username is required",
-                            Toast.LENGTH_SHORT).show();
-                }
-                else if (TextUtils.isEmpty(password))
-                {
-                    user_password.setError("Password is required");
-                    Toast.makeText(Registeration.this, "Password is required",
-                            Toast.LENGTH_SHORT).show();
-                }
-                else if (TextUtils.isEmpty(c_password))
-                {
-                    confirm_user_password.setError("Confirm Password is required");
-                    Toast.makeText(Registeration.this, "Confirm Password is required",
-                            Toast.LENGTH_SHORT).show();
-                }
-                else if (!c_password.equals(password))
-                {
-                    confirm_user_password.setError("Password doesn't match");
-                    Toast.makeText(Registeration.this, "Password doesn't match",
-                            Toast.LENGTH_SHORT).show();
-                }
-                else if (TextUtils.isEmpty(phone))
-                {
-                    contact_no.setError("Phone number is required");
-                    Toast.makeText(Registeration.this, "Phone number is required",
-                            Toast.LENGTH_SHORT).show();
-                }
-                else if (phone.isEmpty() || phone.length() < 10) {
-                    contact_no.setError("Valid phone number is required");
-                    Toast.makeText(Registeration.this, "Valid phone number is required",
-                            Toast.LENGTH_SHORT).show();
-                }
-                else if (TextUtils.isEmpty(fullName))
-                {
+                    AnimateView(full_name);
                     full_name.setError("Name is required");
-                    Toast.makeText(Registeration.this, "Name is required",
-                            Toast.LENGTH_SHORT).show();
-                }
-                else if (TextUtils.isEmpty(g_name))
-                {
-                    guardian_name.setError("Guardian name is required");
-                    Toast.makeText(Registeration.this, "Guardian name is required",
-                            Toast.LENGTH_SHORT).show();
+                    full_name.requestFocus();
+                    return;
                 }
                 else if (TextUtils.isEmpty(user_cnic))
                 {
+                    AnimateView(cnic);
                     cnic.setError("CNIC number is required");
-                    Toast.makeText(Registeration.this, "CNIC number is required",
-                            Toast.LENGTH_SHORT).show();
+                    cnic.requestFocus();
+                    return;
                 }
                 else if (user_cnic.isEmpty() || user_cnic.length() < 13) {
+                    AnimateView(cnic);
                     cnic.setError("Valid CNIC number is required");
-                    Toast.makeText(Registeration.this, "Valid CNIC number is required",
-                            Toast.LENGTH_SHORT).show();
-                }
-                else if (TextUtils.isEmpty(address))
-                {
-                    address_edt.setError("Address is required");
-                    Toast.makeText(Registeration.this, "Address is required",
-                            Toast.LENGTH_SHORT).show();
+                    cnic.requestFocus();
+                    return;
                 }
                 else if (selection == null) {
+                    AnimateView(gender_acTv);
                     Toast.makeText(Registeration.this, "Gender is required",
                             Toast.LENGTH_SHORT).show();
+                    gender_acTv.requestFocus();
+                    return;
                 }
-                else if (dist_id == null) {
+                else if (TextUtils.isEmpty(g_name))
+                {
+                    AnimateView(guardian_name);
+                    guardian_name.setError("Guardian name is required");
+                    guardian_name.requestFocus();
+                    return;
+                }
+                else if (TextUtils.isEmpty(district.getText().toString())) {
+                    AnimateView(district);
                     Toast.makeText(Registeration.this, "District Name is required",
                             Toast.LENGTH_SHORT).show();
+                    district.requestFocus();
+                    return;
                 }
                 else if (TextUtils.isEmpty(email))
                 {
+                    AnimateView(email_edt);
                     email_edt.setError("Email is required");
-                    Toast.makeText(Registeration.this, "Email is required",
-                            Toast.LENGTH_SHORT).show();
+                    email_edt.requestFocus();
+                    return;
                 }
                 else if (TextUtils.isEmpty(council))
                 {
+                    AnimateView(union_council);
                     union_council.setError("Union Council is required");
-                    Toast.makeText(Registeration.this, "Union Council is required",
-                            Toast.LENGTH_SHORT).show();
+                    union_council.requestFocus();
+                    return;
+                }
+                else if (TextUtils.isEmpty(address))
+                {
+                    AnimateView(address_edt);
+                    address_edt.setError("Address is required");
+                    address_edt.requestFocus();
+                    return;
+                }
+                else if (TextUtils.isEmpty(phone))
+                {
+                    AnimateView(contact_no);
+                    contact_no.setError("Phone number is required");
+                    contact_no.requestFocus();
+                    return;
+                }
+                else if (phone.isEmpty() || phone.length() < 10) {
+                    AnimateView(contact_no);
+                    contact_no.setError("Valid phone number is required");
+                    contact_no.requestFocus();
+                    return;
+                }
+                else if (TextUtils.isEmpty(username))
+                {
+                    AnimateView(user_username);
+                    user_username.setError("Username is required");
+                    user_username.requestFocus();
+                    return;
+                }
+                else if (TextUtils.isEmpty(password))
+                {
+                    AnimateView(user_password);
+                    user_password.setError("Password is required");
+                    user_password.requestFocus();
+                    return;
+                }
+                else if (TextUtils.isEmpty(c_password))
+                {
+                    AnimateView(confirm_user_password);
+                    confirm_user_password.setError("Confirm Password is required");
+                    confirm_user_password.requestFocus();
+                    return;
+                }
+                else if (!c_password.equals(password))
+                {
+                    AnimateView(confirm_user_password);
+                    confirm_user_password.setError("Password doesn't match");
+                    confirm_user_password.requestFocus();
+                    return;
                 }
                 else
                 {
                     if (NetworkUtils.isNetworkConnected(Registeration.this)){
 
                         //registerMe();
-                        showOTPVerificationLayout();
+                        checkRegisteredUsersFromAPI();
 
                     } else {
                         no_internet_layout.setVisibility(View.VISIBLE);
@@ -338,6 +372,148 @@ public class Registeration extends AppCompatActivity {
         });
     }
 
+    private void fetchDistrictsFromAPI() {
+        RequestParams jsonParams = new RequestParams();
+
+        getClient().post(API_Utils.DISTRICTS, jsonParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                String json = new String(responseBody);
+                Log.d("RESPONSE", "onSuccess: " + json);
+
+                try {
+                    JSONObject object=new JSONObject(json);
+                    JSONArray jsonArray = object.getJSONArray("districts");
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObjectNew = jsonArray.getJSONObject(i);
+
+                        dist_id = jsonObjectNew.getString("district_id");
+                        dist_name = jsonObjectNew.getString("district_name");
+                        String district_status = jsonObjectNew.getString("district_status");
+                        Log.d("RESPONSE_DATA","dist_id: " +dist_id+
+                                "\ndist_name: " +dist_name+
+                                "\ndistrict_status: " +district_status);
+
+                        DistrictModel model = new DistrictModel(dist_id,dist_name);
+                        districtMODELS.add(model);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(Registeration.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                String json = new String(responseBody);
+                Log.e("REPONSE2", "onSuccess: " + json);
+                Toast.makeText(Registeration.this, json, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancel() {
+                super.onCancel();
+            }
+        });
+    }
+
+    private void checkRegisteredUsersFromAPI() {
+        RequestParams jsonParams = new RequestParams();
+
+        jsonParams.put("user_name", username);
+        jsonParams.put("user_contact", phone);
+
+        Log.e("JSONPARAMS", jsonParams.toString());
+
+        getClient().post(API_Utils.SIGNUP_VALIDATIONS, jsonParams, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                showNow.showLoadingDialog(Registeration.this);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                String json = new String(responseBody);
+                Log.e("RESPONSE", "onSuccess: " + json);
+                showNow.scheduleDismiss();
+
+                try {
+
+                    JSONObject object=new JSONObject(json);
+                    int api_res_success = object.getInt("response");
+                    String api_res_success_msg = object.getString("response_msg");
+                    Log.e("api_res_success_msg",String.valueOf(api_res_success_msg));
+                    Log.e("api_res_success",String.valueOf(api_res_success));
+
+                    if (api_res_success == 1)
+                    {
+                        showNow.desplayPositiveToast(Registeration.this,api_res_success_msg);
+                        Toast.makeText(Registeration.this, api_res_success_msg, Toast.LENGTH_SHORT).show();
+
+                        showOTPVerificationLayout();
+                    }
+                    else if (api_res_success == 0)
+                    {
+                        showNow.desplayErrorToast(Registeration.this,api_res_success_msg);
+                        Toast.makeText(Registeration.this, api_res_success_msg, Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("JSONException", "onSuccess: " + e.getMessage());
+
+                    JSONObject object= null;
+                    try {
+                        object = new JSONObject(json);
+                        int api_res_success = object.getInt("response");
+                        String api_res_success_msg = object.getString("response_msg");
+                        Log.e("api_res_success_msg",String.valueOf(api_res_success_msg));
+
+                        showNow.desplayErrorToast(Registeration.this,api_res_success_msg);
+                        showNow.scheduleDismiss();
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                String json = new String(responseBody);
+                Log.e("onFailure", "onSuccess: " + json);
+                showNow.desplayErrorToast(Registeration.this,json);
+                showNow.scheduleDismiss();
+            }
+
+            @Override
+            public void onCancel() {
+                super.onCancel();
+                showNow.scheduleDismiss();
+            }
+        });
+    }
+
+    private void AnimateView(EditText editText) {
+        YoYo.with(Techniques.Tada)
+                .duration(800)
+                .repeat(1)
+                .playOn(editText);
+    }
+
     private void showDistrictList() {
         district.requestFocus();
         final Dialog districtsDilaog = new Dialog(Registeration.this, R.style.dialog_theme);
@@ -345,26 +521,60 @@ public class Registeration extends AppCompatActivity {
         districtsDilaog.setCancelable(true);
         districtsDilaog.setContentView(R.layout.dist_dialog);
         districtsDilaog.getWindow().setBackgroundDrawable(new ColorDrawable(0x7f000000));
-        ListView distlist= (ListView) districtsDilaog.findViewById(R.id.countrylist);
-        DistrictAdapter districtAdapter= new DistrictAdapter(Registeration.this,
-                distrct_id,distrct_name,temp);
-        distlist.setAdapter(districtAdapter);
+        EditText searchBar = (EditText) districtsDilaog.findViewById(R.id.searchBar);
+        RecyclerView districtList= (RecyclerView) districtsDilaog.findViewById(R.id.districtList);
+        districtList.setHasFixedSize(true);
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        districtList.setLayoutManager(layoutManager);
         districtsDilaog.show();
+        try {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    distAdapter = new DistrictAdapter(Registeration.this,
+                            districtMODELS,districtsDilaog);
+                    districtList.setAdapter(distAdapter);
+                    distAdapter.notifyDataSetChanged();
+                    //district_id.setText(""+distrct_name.get(i));
+                }
+            });
+        } catch (Exception e) {
+            Log.e("ERRR", e.getMessage());
+            String error = e.getMessage().toString();
+            Toast.makeText(Registeration.this, error,
+                    Toast.LENGTH_SHORT).show();
+        }
 
-        distlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                districtsDilaog.dismiss();
-                district.setText(""+distrct_name.get(i));
-                dist_id = distrct_id.get(i);
-                Log.e("dist_id", dist_id);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                distAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
+    }
+
+    public void recyclerTouchMethod(String id, String name) {
+        district.setText(""+name);
+        dist_id = id;
+        Log.e("DISTRICT_values","name: "+district.getText().toString()+
+                "\nid: "+dist_id);
     }
 
     private void showOTPVerificationLayout() {
         register_fields_layout.setVisibility(View.GONE);
         no_internet_layout.setVisibility(View.GONE);
+        bottomLayout.setVisibility(View.GONE);
         otp_verification_layout.setVisibility(View.VISIBLE);
 
         String phoneNumber = code + phone;
@@ -557,6 +767,7 @@ public class Registeration extends AppCompatActivity {
         register_fields_layout = findViewById(R.id.register_fields_layout);
         otp_verification_layout = findViewById(R.id.otp_verification_layout);
         no_internet_layout = findViewById(R.id.no_internet_layout);
+        bottomLayout = findViewById(R.id.bottomLayout);
         pinView=findViewById(R.id.editTextCode);
         editText = findViewById(R.id.editTextCode1);
         buttonSignIn = findViewById(R.id.buttonSignIn);
@@ -565,9 +776,6 @@ public class Registeration extends AppCompatActivity {
         district = findViewById(R.id.district_id);
         //tvlogin = findViewById(R.id.tvlogin);
         showNow=new ShowNow(this);
-
-        dbHelperClass = new DBHelperClass(this);
-
     }
 
     @Override

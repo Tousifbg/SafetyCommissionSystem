@@ -6,7 +6,7 @@ public class API_Utils {
 
     public static String REGISTERATION = "https://www.ppsc.kp.gov.pk/Api/complainant_registration";
 
-    public static String PHONE_VALIDATION = "https://www.ppsc.kp.gov.pk/Api/phone_validation";
+    public static String SIGNUP_VALIDATIONS = "https://ppsc.kp.gov.pk/Api/signup_validation";
 
     public static String CATEGORIES = "https://www.ppsc.kp.gov.pk/Api/complaint_categories_get";
 
@@ -24,5 +24,5 @@ public class API_Utils {
 
     public static String FORGOT_PASSWORD_RESET = "https://ppsc.kp.gov.pk/Api/forget_password_reset";
 
-    public static String FEEDBACK_API = "https://bintehawa.hed.gkp.pk/api/add_feedback";
+    public static String WITHDRAW_COMPLAINT = "https://ppsc.kp.gov.pk/Api/complaint_withdrawal";
 }

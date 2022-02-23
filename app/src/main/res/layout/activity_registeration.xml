@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
-    tools:context=".ProfileUpdate">
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_120sdp"
+        android:visibility="gone"
         android:background="@drawable/curved_bottom">
 
         <ImageView
@@ -22,33 +22,38 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:src="@drawable/new_logo" />
 
-         <TextView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/logo"
+            android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center"
             android:text="Public safety Commission, KP"
-             android:layout_below="@+id/logo"
             android:textSize="@dimen/_15sdp"
-             android:layout_marginTop="@dimen/_10sdp"
             android:textStyle="bold" />
 
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/scrollBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbarThumbVertical="@color/colorPrimary"
+        android:scrollbarSize="@dimen/_5sdp"
+        android:layout_above="@+id/bottomLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:isScrollContainer="true">
 
             <TextView
                 android:id="@+id/resend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
                 android:gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:text="Register Now"
                 android:textSize="@dimen/_16sdp"
                 android:textColor="@color/black"
@@ -119,6 +124,7 @@
                         android:id="@+id/full_name"
                         android:layout_weight="1"
                         android:inputType="text"
+                        android:imeOptions="flagNoFullscreen"
                         android:padding="12dp"
                         android:drawableLeft="@drawable/username_icon"
                         android:drawablePadding="10dp"
@@ -156,6 +162,7 @@
                         android:layout_weight="1"
                         android:inputType="number"
                         android:maxLength="13"
+                        android:imeOptions="flagNoFullscreen"
                         android:padding="12dp"
                         android:drawableLeft="@drawable/cnic_icon"
                         android:drawablePadding="10dp"
@@ -195,6 +202,7 @@
                         android:layout_weight="1"
                         android:editable="false"
                         android:focusable="false"
+                        android:imeOptions="flagNoFullscreen"
                         android:textSize="@dimen/_12sdp"
                         android:inputType="none"
                         android:drawableLeft="@drawable/gender_icon"
@@ -234,6 +242,7 @@
                         android:layout_weight="1"
                         android:inputType="text"
                         android:padding="12dp"
+                        android:imeOptions="flagNoFullscreen"
                         android:textSize="@dimen/_12sdp"
                         android:drawableLeft="@drawable/username_icon"
                         android:drawablePadding="10dp"
@@ -273,6 +282,7 @@
                         android:focusable="false"
                         android:textSize="@dimen/_12sdp"
                         android:inputType="none"
+                        android:imeOptions="flagNoFullscreen"
                         android:padding="12dp"
                         android:drawablePadding="10dp"
                         android:drawableLeft="@drawable/council_icon"
@@ -313,6 +323,7 @@
                         android:padding="12dp"
                         android:textSize="@dimen/_12sdp"
                         android:clickable="true"
+                        android:imeOptions="flagNoFullscreen"
                         android:drawableLeft="@drawable/email_icon"
                         android:drawablePadding="10dp"
                         android:layout_marginLeft="6dp"
@@ -347,6 +358,7 @@
                         android:layout_weight="1"
                         android:inputType="text"
                         android:padding="12dp"
+                        android:imeOptions="flagNoFullscreen"
                         android:textSize="@dimen/_12sdp"
                         android:clickable="true"
                         android:layout_marginLeft="6dp"
@@ -384,6 +396,7 @@
                         android:inputType="text"
                         android:padding="12dp"
                         android:textSize="@dimen/_12sdp"
+                        android:imeOptions="flagNoFullscreen"
                         android:drawableLeft="@drawable/address_icon"
                         android:drawablePadding="10dp"
                         android:clickable="true"
@@ -423,6 +436,7 @@
                         android:padding="12dp"
                         android:drawableLeft="@drawable/phone_icon"
                         android:drawablePadding="10dp"
+                        android:imeOptions="flagNoFullscreen"
                         android:textSize="@dimen/_12sdp"
                         android:clickable="true"
                         android:layout_marginLeft="6dp"
@@ -461,6 +475,7 @@
                         android:drawablePadding="10dp"
                         android:textSize="@dimen/_12sdp"
                         android:clickable="true"
+                        android:imeOptions="flagNoFullscreen"
                         android:layout_marginLeft="6dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
@@ -500,9 +515,9 @@
                             android:drawablePadding="10dp"
                             android:hint="Password"
                             android:background="@null"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="flagNoFullscreen"
                             android:inputType="textPassword"
-                            android:padding="15dp"
+                            android:paddingHorizontal="15dp"
                             android:singleLine="true"
                             android:textColor="@color/mytextcolor"
                             android:textColorHint="@color/mytextcolor"
@@ -526,8 +541,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
                     android:layout_marginHorizontal="27dp"
-                    android:background="@drawable/rect_shape"
-                    android:layout_marginBottom="@dimen/_10sdp">
+                    android:background="@drawable/rect_shape">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -544,9 +558,9 @@
                             android:drawablePadding="10dp"
                             android:hint="Confirm Password"
                             android:background="@null"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="flagNoFullscreen"
                             android:inputType="textPassword"
-                            android:padding="15dp"
+                            android:paddingHorizontal="15dp"
                             android:singleLine="true"
                             android:textColor="@color/mytextcolor"
                             android:textColorHint="@color/mytextcolor"
@@ -555,20 +569,6 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/registerBtn"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:gravity="center"
-                    android:text="REGISTER"
-                    android:textSize="15sp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_17sdp"
-                    android:layout_marginBottom="@dimen/_20sdp"
-                    android:background="@drawable/round_border_edittext"
-                    android:textColor="@color/black" />
 
             </LinearLayout>
 
@@ -661,39 +661,54 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:layout_marginBottom="@dimen/_10sdp">
-
-                <TextView
-                    android:id="@+id/tvSignIn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:alpha="0.9"
-                    android:gravity="center"
-                    android:text="Already have Account ?"
-                    android:textStyle="italic"
-                    android:textColor="@color/mycolorr"
-                    android:textSize="@dimen/_13sdp" />
-
-                <TextView
-                    android:id="@+id/loginBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="Login"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_13sdp" />
-
-            </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/bottomLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_12sdp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/registerBtn"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:gravity="center"
+            android:text="REGISTER"
+            android:textSize="@dimen/_12sdp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="@drawable/round_border_edittext"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tvSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:alpha="0.9"
+            android:gravity="center"
+            android:text="Already have Account ?"
+            android:textStyle="italic"
+            android:textColor="@color/mycolorr"
+            android:textSize="@dimen/_12sdp" />
+
+        <TextView
+            android:id="@+id/loginBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Login"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
