@@ -115,9 +115,13 @@ public class Login extends AppCompatActivity {
                 loginpassword = etloginpassword.getText().toString();
                 if (loginusername.isEmpty()){
                     etloginusername.setError("this feild is required to fill");
+                    etloginusername.requestFocus();
+                    return;
                 }
                 else if (loginpassword.isEmpty()){
                     etloginpassword.setError("this feild is required to fill");
+                    etloginpassword.requestFocus();
+                    return;
                 }
                 else {
                     if (NetworkUtils.isNetworkConnected(Login.this))

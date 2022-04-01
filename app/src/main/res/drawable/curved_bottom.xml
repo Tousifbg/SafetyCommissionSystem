@@ -6,7 +6,11 @@
         android:right="-180dp"
         android:top="-80dp">
         <shape android:shape="oval">
-            <solid android:color="@color/colorPrimary"/>
+            <gradient
+                android:startColor="@color/colorPrimaryDark"
+                android:centerColor="@color/colorPrimary"
+                android:endColor="#4CAF50"
+                android:angle="45"/>
         </shape>
     </item>
 </layer-list>

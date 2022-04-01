@@ -26,6 +26,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,7 +91,7 @@ public class ComplaintArea extends AppCompatActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
-    AppCompatButton submitComplaint;
+    Button submitComplaint;
 
     EditText complaint_detail,complaint_council,category_id,district_id;
     String comp_council,comp_detail;
@@ -287,7 +288,7 @@ public class ComplaintArea extends AppCompatActivity {
                 Animation.RELATIVE_TO_SELF, 0.5f);
 
         rotateAnimation.setInterpolator(new LinearInterpolator());
-        rotateAnimation.setDuration(1000);
+        rotateAnimation.setDuration(1500);
         rotateAnimation.setRepeatCount(Animation.ABSOLUTE);
         image_picker.startAnimation(rotateAnimation);
         videos_picker.startAnimation(rotateAnimation);

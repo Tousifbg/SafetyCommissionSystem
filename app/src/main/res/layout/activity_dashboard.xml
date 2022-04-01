@@ -4,270 +4,331 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="#F5F5F5"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/toolbar"
+    <RelativeLayout
+        android:id="@+id/top_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_70sdp"
-        android:background="@drawable/custom_toolbar_shape"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/profile"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="@dimen/_14sdp"
-            android:src="@drawable/profile_icn" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="Dashboard"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_16sdp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/buttonLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_14sdp"
-            android:background="@drawable/shape2"
-            android:paddingHorizontal="@dimen/_14sdp"
-            android:paddingVertical="@dimen/_6sdp"
-            android:text="Logout"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_14sdp" />
-
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_below="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/curved_bottom">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Home"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold" />
+
             <LinearLayout
-                android:id="@+id/logo_layouttt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginVertical="@dimen/_50sdp">
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_60sdp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/new_logo"
-                    />
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/profile_image"
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="@dimen/_70sdp"
+                        app:civ_border_color="@color/white"
+                        android:src="@drawable/profile_dummy_img"
+                        app:civ_border_width="2dp" />
 
-                <TextView
-                    android:layout_width="match_parent"
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:gravity="center"
-                    android:text="Public Safety Commission,KP"
-                    android:textSize="@dimen/_15sdp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold" />
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/profile_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_5sdp"
+                        android:text="Tousif Ahmad"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_13sdp" />
 
+                    <TextView
+                        android:id="@+id/profile_contact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="03319197155"
+                        android:textColor="#E0E0E0"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:id="@+id/profile_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hayatabad Phase 4, Peshawar"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:textColor="#E0E0E0"
+                        android:textSize="@dimen/_12sdp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:id="@+id/linearLayout4"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="#E0E0E0" />
 
-                <LinearLayout
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_110sdp"
-                    android:layout_marginLeft="@dimen/_30sdp"
-                    android:orientation="vertical">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/complaintregister"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_100sdp"
-                        android:outlineAmbientShadowColor="@color/green"
-                        android:padding="@dimen/_40sdp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="@color/offwhite"
-                        android:outlineSpotShadowColor="@color/green"
-                        app:cardCornerRadius="@dimen/_14sdp">
-
-                        <ImageView
-                            android:layout_width="@dimen/_40sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:src="@drawable/register" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:layout_marginBottom="@dimen/_15sdp"
-                            android:gravity="center"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:text="Register Complaint"
-                            android:textSize="@dimen/_10sdp" />
-
-
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_110sdp"
-                    android:layout_marginLeft="@dimen/_50sdp"
-                    android:orientation="vertical">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/viewcomplaints"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_100sdp"
-                        android:outlineAmbientShadowColor="@color/mycolorrrr"
-                        android:padding="@dimen/_40sdp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="@color/offwhite"
-                        android:outlineSpotShadowColor="@color/green"
-                        app:cardCornerRadius="@dimen/_14sdp">
-
-                        <ImageView
-                            android:layout_width="@dimen/_40sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:src="@drawable/preview" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:layout_marginBottom="@dimen/_15sdp"
-                            android:gravity="center"
-                            android:textColor="@color/black"
-                            android:textAlignment="center"
-                            android:text="View Complaints"
-                            android:textSize="@dimen/_10sdp" />
-
-
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout10"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_110sdp"
-                    android:layout_marginLeft="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:orientation="vertical">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/help_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_100sdp"
-                        android:outlineAmbientShadowColor="@color/mycolorrrr"
-                        android:padding="@dimen/_40sdp"
-                        app:cardBackgroundColor="@color/offwhite"
-                        android:outlineProvider="background"
-                        app:cardElevation="4dp"
-                        android:outlineSpotShadowColor="@color/green"
-                        app:cardCornerRadius="@dimen/_14sdp">
-
-                        <ImageView
-                            android:layout_width="@dimen/_40sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:src="@drawable/help" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:layout_marginBottom="@dimen/_15sdp"
-                            android:gravity="center"
-                            android:textColor="@color/black"
-                            android:textAlignment="center"
-                            android:text="Help"
-                            android:textSize="@dimen/_10sdp" />
-
-
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_110sdp"
-                    android:layout_marginLeft="@dimen/_50sdp"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:orientation="vertical">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/about_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_100sdp"
-                        app:cardBackgroundColor="@color/offwhite"
-                        android:outlineAmbientShadowColor="@color/mycolorrrr"
-                        android:padding="@dimen/_40sdp"
-                        app:cardElevation="4dp"
-                        android:outlineSpotShadowColor="@color/green"
-                        app:cardCornerRadius="@dimen/_14sdp">
-
-                        <ImageView
-                            android:layout_width="@dimen/_40sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:src="@drawable/aboutus" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:layout_marginBottom="@dimen/_15sdp"
-                            android:gravity="center"
-                            android:text="About us"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_10sdp" />
-
-
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>
-
-
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:text="ESCOB Complaints Portal"
+                android:layout_marginVertical="@dimen/_15sdp"
+                android:textColor="#E0E0E0"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/_14sdp"/>
 
         </LinearLayout>
 
-    </ScrollView>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginHorizontal="@dimen/_12sdp"
+        android:layout_below="@+id/top_layout"
+        android:layout_above="@+id/bottomLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:weightSum="2">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/complaintregister"
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="@dimen/_134sdp"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_4sdp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/_55sdp"
+                        android:layout_height="@dimen/_55sdp"
+                        android:src="@drawable/ic_reg_complaint"
+                        android:layout_gravity="center_horizontal"
+                        android:adjustViewBounds="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Register Complaint"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/viewcomplaints"
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="@dimen/_134sdp"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_4sdp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/_55sdp"
+                        android:layout_height="@dimen/_55sdp"
+                        android:src="@drawable/ic_view_comp"
+                        android:layout_gravity="center_horizontal"
+                        android:adjustViewBounds="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center_horizontal"
+                        android:text="View Complaints"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:weightSum="2">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/help_btn"
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="@dimen/_134sdp"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_4sdp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/_55sdp"
+                        android:layout_height="@dimen/_55sdp"
+                        android:src="@drawable/ic_help"
+                        android:layout_gravity="center_horizontal"
+                        android:adjustViewBounds="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:textAlignment="center"
+                        android:text="Help"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/about_btn"
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="@dimen/_134sdp"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_4sdp"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/_55sdp"
+                        android:layout_height="@dimen/_55sdp"
+                        android:src="@drawable/ic_about_us"
+                        android:layout_gravity="center_horizontal"
+                        android:adjustViewBounds="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:textAlignment="center"
+                        android:text="About Us"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="@dimen/_10sdp"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp">
+
+            <ImageView
+                android:id="@+id/home_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/ic_homeimg" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_settingsimg"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/setting_icon"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_exitimg"
+                android:layout_alignParentRight="true"
+                android:id="@+id/exit_icon"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
 
 </RelativeLayout>

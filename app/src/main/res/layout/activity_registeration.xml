@@ -48,16 +48,26 @@
             android:orientation="vertical"
             android:isScrollContainer="true">
 
+            <ImageView
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="@dimen/_55sdp"
+                android:src="@drawable/new_logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:contentDescription="TODO" />
+
             <TextView
                 android:id="@+id/resend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:text="Create an Account"
+                android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Register Now"
                 android:textSize="@dimen/_16sdp"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:id="@+id/no_internet_layout"
@@ -96,26 +106,27 @@
                 android:id="@+id/register_fields_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:visibility="visible"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Full Name: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/profile_image"
+                    android:layout_width="@dimen/_74sdp"
+                    android:layout_height="@dimen/_74sdp"
+                    app:civ_border_color="#196F37"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/profile_dummy_img"
+                    app:civ_border_width="2dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_edittext"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_10sdp">
 
                     <EditText
@@ -125,34 +136,21 @@
                         android:layout_weight="1"
                         android:inputType="text"
                         android:imeOptions="flagNoFullscreen"
-                        android:padding="12dp"
-                        android:drawableLeft="@drawable/username_icon"
-                        android:drawablePadding="10dp"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="6dp"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:clickable="true"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
-                        android:hint="Type full name"/>
+                        android:hint="Full Name"/>
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CNIC: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_edittext"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_10sdp">
 
                     <EditText
@@ -163,35 +161,21 @@
                         android:inputType="number"
                         android:maxLength="13"
                         android:imeOptions="flagNoFullscreen"
-                        android:padding="12dp"
-                        android:drawableLeft="@drawable/cnic_icon"
-                        android:drawablePadding="10dp"
-                        android:textSize="@dimen/_12sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:clickable="true"
-                        android:layout_marginLeft="6dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
-                        android:hint="Type your CNIC"/>
+                        android:hint="CNIC"/>
 
                 </LinearLayout>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Gender: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_edittext"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_10sdp">
 
 
@@ -203,36 +187,24 @@
                         android:editable="false"
                         android:focusable="false"
                         android:imeOptions="flagNoFullscreen"
-                        android:textSize="@dimen/_12sdp"
                         android:inputType="none"
-                        android:drawableLeft="@drawable/gender_icon"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:drawablePadding="10dp"
-                        android:padding="12dp"
                         android:clickable="true"
-                        android:layout_marginLeft="6dp"
                         android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
-                        android:hint="Select Gender"/>
+                        android:hint="Gender"/>
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Guardian Name: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_edittext"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_10sdp">
 
                     <EditText
@@ -241,35 +213,23 @@
                         android:id="@+id/guardian_name"
                         android:layout_weight="1"
                         android:inputType="text"
-                        android:padding="12dp"
                         android:imeOptions="flagNoFullscreen"
-                        android:textSize="@dimen/_12sdp"
-                        android:drawableLeft="@drawable/username_icon"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:drawablePadding="10dp"
                         android:clickable="true"
-                        android:layout_marginLeft="6dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
-                        android:hint="Type Father/Husband name"/>
+                        android:hint="Father/Husband Name"/>
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="District Name: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_edittext"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_10sdp">
 
 
@@ -280,38 +240,26 @@
                         android:layout_weight="1"
                         android:editable="false"
                         android:focusable="false"
-                        android:textSize="@dimen/_12sdp"
                         android:inputType="none"
                         android:imeOptions="flagNoFullscreen"
-                        android:padding="12dp"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:drawablePadding="10dp"
-                        android:drawableLeft="@drawable/council_icon"
                         android:clickable="true"
-                        android:layout_marginLeft="6dp"
                         android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
-                        android:hint="Select District"/>
+                        android:hint="District"/>
 
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Email: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_edittext"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_10sdp">
 
                     <EditText
@@ -320,35 +268,23 @@
                         android:id="@+id/email_edt"
                         android:layout_weight="1"
                         android:inputType="textEmailAddress"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
                         android:clickable="true"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:imeOptions="flagNoFullscreen"
-                        android:drawableLeft="@drawable/email_icon"
                         android:drawablePadding="10dp"
-                        android:layout_marginLeft="6dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
-                        android:hint="Type your Email"/>
+                        android:hint="Email"/>
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Union Council: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_edittext"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_10sdp">
 
                     <EditText
@@ -357,35 +293,23 @@
                         android:id="@+id/union_council"
                         android:layout_weight="1"
                         android:inputType="text"
-                        android:padding="12dp"
                         android:imeOptions="flagNoFullscreen"
-                        android:textSize="@dimen/_12sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:clickable="true"
-                        android:layout_marginLeft="6dp"
-                        android:drawableLeft="@drawable/council_icon"
                         android:drawablePadding="10dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
-                        android:hint="Type union council"/>
+                        android:hint="Union Council"/>
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Address: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_edittext"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_10sdp">
 
                     <EditText
@@ -394,36 +318,24 @@
                         android:id="@+id/address_edt"
                         android:layout_weight="1"
                         android:inputType="text"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
                         android:imeOptions="flagNoFullscreen"
-                        android:drawableLeft="@drawable/address_icon"
                         android:drawablePadding="10dp"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:clickable="true"
-                        android:layout_marginLeft="6dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
-                        android:hint="Type address"/>
+                        android:hint="Address"/>
 
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Contact: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_edittext"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_10sdp">
 
                     <EditText
@@ -433,35 +345,23 @@
                         android:layout_weight="1"
                         android:inputType="numberSigned"
                         android:maxLength="11"
-                        android:padding="12dp"
-                        android:drawableLeft="@drawable/phone_icon"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:drawablePadding="10dp"
                         android:imeOptions="flagNoFullscreen"
-                        android:textSize="@dimen/_12sdp"
                         android:clickable="true"
-                        android:layout_marginLeft="6dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
                         android:hint="Type phone no"/>
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Username: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_edittext"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_10sdp">
 
                     <EditText
@@ -470,82 +370,60 @@
                         android:id="@+id/user_username"
                         android:layout_weight="1"
                         android:inputType="text"
-                        android:padding="12dp"
-                        android:drawableLeft="@drawable/username_icon"
                         android:drawablePadding="10dp"
-                        android:textSize="@dimen/_12sdp"
                         android:clickable="true"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_14sdp"
                         android:imeOptions="flagNoFullscreen"
-                        android:layout_marginLeft="6dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
                         android:hint="Type username"/>
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Password: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:layout_marginHorizontal="27dp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_edittext"
                     android:layout_marginBottom="@dimen/_10sdp">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:passwordToggleEnabled="true"
+                        app:hintEnabled="false"
                         app:passwordToggleTint="@color/colorPrimaryDark">
 
                         <EditText
                             android:id="@+id/user_password"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:drawableLeft="@drawable/pass_icon"
-                            android:drawableStart="@drawable/pass_icon"
                             android:drawablePadding="10dp"
                             android:hint="Password"
                             android:background="@null"
+                            android:padding="@dimen/_10sdp"
+                            android:textSize="@dimen/_14sdp"
                             android:imeOptions="flagNoFullscreen"
                             android:inputType="textPassword"
-                            android:paddingHorizontal="15dp"
                             android:singleLine="true"
-                            android:textColor="@color/mytextcolor"
-                            android:textColorHint="@color/mytextcolor"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/mytextcolor" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Confirm Password: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:layout_marginHorizontal="27dp"
-                    android:background="@drawable/rect_shape">
+                    android:background="@drawable/round_border_edittext">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        app:hintEnabled="false"
                         app:passwordToggleEnabled="true"
                         app:passwordToggleTint="@color/colorPrimaryDark">
 
@@ -553,18 +431,16 @@
                             android:id="@+id/confirm_user_password"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:drawableLeft="@drawable/pass_icon"
-                            android:drawableStart="@drawable/pass_icon"
                             android:drawablePadding="10dp"
                             android:hint="Confirm Password"
                             android:background="@null"
                             android:imeOptions="flagNoFullscreen"
+                            android:padding="@dimen/_10sdp"
+                            android:textSize="@dimen/_14sdp"
                             android:inputType="textPassword"
-                            android:paddingHorizontal="15dp"
                             android:singleLine="true"
-                            android:textColor="@color/mytextcolor"
-                            android:textColorHint="@color/mytextcolor"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/mytextcolor" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -673,41 +549,51 @@
         android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginBottom="@dimen/_12sdp">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/registerBtn"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:text="Sign Up"
+            android:layout_marginHorizontal="@dimen/_10sdp"
             android:gravity="center"
-            android:text="REGISTER"
-            android:textSize="@dimen/_12sdp"
-            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:padding="@dimen/_12sdp"
+            android:textSize="@dimen/_14sdp"
+            android:shadowColor="@color/white"
             android:layout_marginBottom="@dimen/_20sdp"
-            android:background="@drawable/round_border_edittext"
-            android:textColor="@color/black" />
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
 
-        <TextView
-            android:id="@+id/tvSignIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:alpha="0.9"
-            android:gravity="center"
-            android:text="Already have Account ?"
-            android:textStyle="italic"
-            android:textColor="@color/mycolorr"
-            android:textSize="@dimen/_12sdp" />
-
-        <TextView
+        <LinearLayout
             android:id="@+id/loginBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:gravity="center"
-            android:text="Login"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12sdp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Already Have An Account?"
+                android:textColor="@color/newgreen"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Login Now"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 

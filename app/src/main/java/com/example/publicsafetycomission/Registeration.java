@@ -1,18 +1,34 @@
 package com.example.publicsafetycomission;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -35,6 +51,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.publicsafetycomission.Constant.API_Utils;
 import com.example.publicsafetycomission.Helpers.ApiCallback;
+import com.example.publicsafetycomission.Helpers.FileUtils;
 import com.example.publicsafetycomission.Helpers.NetworkUtils;
 import com.example.publicsafetycomission.Helpers.ShowNow;
 import com.example.publicsafetycomission.adapters.DistrictAdapter;
@@ -59,13 +76,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Registeration extends AppCompatActivity {
 
@@ -73,8 +94,9 @@ public class Registeration extends AppCompatActivity {
             cnic,guardian_name,email_edt,union_council,address_edt,district;
     AutoCompleteTextView gender_acTv;
     Button registerBtn;
-    TextView loginBtn;
-    String username, password,c_password, phone, code, fullName, user_cnic, g_name, gender, email, address,council;
+    LinearLayout loginBtn;
+    String username, password,c_password, phone, code, fullName, user_cnic, g_name, gender, email,
+            address,council;
     String selection;
 
     SharedPreferences pref;
@@ -102,6 +124,24 @@ public class Registeration extends AppCompatActivity {
 
     ArrayList<DistrictModel> districtMODELS = new ArrayList<>();
     private DistrictAdapter distAdapter;
+
+    private CircleImageView profile_image;
+
+    private String[] cameraPermissions;
+    private String[] storagePermissions;
+
+    private static final int CAMERA_REQUEST_CODE = 1058;
+    private static final int STORAGE_REQUEST_CODE = 1059;
+
+    public static final int PICK_IMG = -1;
+    public static final int PICK_CAM_IMG = -50;
+
+    private Uri cam_uri;
+    private String imgPath;
+    private Bitmap bitmap;
+    private FileUtils fileUtils;
+    private List<File> filesList = new ArrayList<>();
+    private File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,6 +251,18 @@ public class Registeration extends AppCompatActivity {
             }
         });
 
+
+        cameraPermissions = new String[]{Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        hasStoragePermission(1);
+        profile_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickImage();
+            }
+        });
+
+
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,7 +278,12 @@ public class Registeration extends AppCompatActivity {
                 council = union_council.getText().toString();
                 address = address_edt.getText().toString();
 
-                if (TextUtils.isEmpty(fullName))
+                if (file == null){
+                    Toast.makeText(Registeration.this, "Select your profile image",
+                            Toast.LENGTH_SHORT).show();
+                    AnimateImage(profile_image);
+                }
+                else if (TextUtils.isEmpty(fullName))
                 {
                     AnimateView(full_name);
                     full_name.setError("Name is required");
@@ -372,6 +429,189 @@ public class Registeration extends AppCompatActivity {
         });
     }
 
+    private void pickImage() {
+        showImagePickDialog();
+    }
+
+    private void showImagePickDialog() {
+        //options to display in dialog
+        String[] options = {"Camera", "Gallery"};
+        //dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pick Image:")
+                .setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //handle item clicks
+                        if (which==0){
+                            //camera clicked
+                            if (checkCameraPermission()){
+                                //allowed, open camera
+                                pickFromCamera();
+                            }
+                            else {
+                                //not allowed, request
+                                requestCameraPermission();
+                            }
+                        }
+                        else {
+                            //gallery clicked
+                            if (hasStoragePermission(1)){
+                                //allowed, open gallery
+                                pickFromGallery();
+                            }
+                            else {
+                                //not allowed, request
+                                requestStoragePermission();
+                            }
+                        }
+                    }
+                })
+                .show();
+    }
+
+    private void requestStoragePermission() {
+        ActivityCompat.requestPermissions(this, storagePermissions, STORAGE_REQUEST_CODE);
+    }
+
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
+    }
+
+    private boolean checkCameraPermission() {
+        boolean result = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) ==
+                (PackageManager.PERMISSION_GRANTED);
+
+        boolean result1 = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                (PackageManager.PERMISSION_GRANTED);
+
+        return result && result1;
+    }
+
+    private void pickFromCamera() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera");
+        cam_uri = Registeration.this.getContentResolver().
+                insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cam_uri);
+
+        //startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE); // OLD WAY
+        startCamera.launch(cameraIntent);                // VERY NEW WAY
+    }
+
+    private void pickFromGallery() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType("image/*");
+        photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        launchImageActivity.launch(Intent.createChooser(photoPickerIntent, "Pictures"));
+    }
+
+    private boolean hasStoragePermission(int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                    PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    //new way for onActivityResult
+    //For camera
+    ActivityResultLauncher<Intent> startCamera = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        //Uri image_uri = cam_uri;
+                        Log.e("URI",cam_uri.toString());
+                        try {
+                            imgPath = fileUtils.getPath(Registeration.this, cam_uri);
+                            Log.e("FILES",imgPath);
+
+                            if (imgPath != null)
+                            {
+                                file = new File(imgPath);
+                                filesList.add(new File(imgPath));
+                                Toast.makeText(Registeration.this, "Image picked", Toast.LENGTH_SHORT).show();
+                                bitmap = MediaStore.Images.Media.getBitmap(Registeration.this.
+                                        getContentResolver(), cam_uri);
+
+                                profile_image.setImageBitmap(bitmap);
+
+                                //imgToString(bitmap);
+                            }
+                            else {
+                                Toast.makeText(Registeration.this, "Image not picked",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Log.i("TAG", "Some exception " + e);
+                        }
+                    }
+                }
+            });
+
+
+    //new way for onActivityResult
+    //For images
+    ActivityResultLauncher<Intent> launchImageActivity = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        Uri image_uri = data.getData();
+                        try {
+                            imgPath = fileUtils.getPath(Registeration.this, image_uri);
+                            Log.e("FILES",imgPath);
+
+                            if (imgPath != null){
+                                file = new File(imgPath);
+                                filesList.add(new File(imgPath));
+                                Toast.makeText(Registeration.this, "Image picked", Toast.LENGTH_SHORT).show();
+                                bitmap = MediaStore.Images.Media.getBitmap(Registeration.this.
+                                        getContentResolver(), image_uri);
+
+                                profile_image.setImageBitmap(bitmap);
+
+                                //imgToString(bitmap);
+
+                            } else {
+                                Toast.makeText(Registeration.this, "Image not picked",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Log.i("TAG", "Some exception " + e);
+                        }
+                    }
+                }
+            });
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == PICK_IMG)
+                pickFromGallery();
+            if (requestCode == PICK_CAM_IMG)
+                pickFromCamera();
+        }
+    }
+
     private void fetchDistrictsFromAPI() {
         RequestParams jsonParams = new RequestParams();
 
@@ -514,6 +754,13 @@ public class Registeration extends AppCompatActivity {
                 .playOn(editText);
     }
 
+    private void AnimateImage(CircleImageView profile_image) {
+        YoYo.with(Techniques.Tada)
+                .duration(800)
+                .repeat(1)
+                .playOn(profile_image);
+    }
+
     private void showDistrictList() {
         district.requestFocus();
         final Dialog districtsDilaog = new Dialog(Registeration.this, R.style.dialog_theme);
@@ -587,6 +834,7 @@ public class Registeration extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendVerificationCode(phoneNumber);
+                Toast.makeText(Registeration.this, "Code has been sent...", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -639,11 +887,6 @@ public class Registeration extends AppCompatActivity {
                             Toast.makeText(Registeration.this, "Code verified",
                                     Toast.LENGTH_SHORT).show();
                             registerMe();
-                            /*Intent intent = new Intent(Registeration.this,
-                                    Login.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            layoutTransition();*/
 
                         } else {
                             Toast.makeText(Registeration.this,
@@ -667,8 +910,16 @@ public class Registeration extends AppCompatActivity {
         jsonParams.put("complainant_council",council);
         jsonParams.put("complainant_address",address);
         jsonParams.put("complainant_district_id_fk",Integer.parseInt(dist_id));
+        try {
+            jsonParams.put("user_avatar",file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        jsonParams.setForceMultipartEntityContentType(true);
 
         Log.e("JSONPARAMS",jsonParams.toString());
+        Log.d("file",file.toString());
 
         getClient().post(API_Utils.REGISTERATION, jsonParams, new AsyncHttpResponseHandler() {
 
@@ -703,10 +954,6 @@ public class Registeration extends AppCompatActivity {
                     Log.e("SHARED_OK", phoneNumber);
                     editor.commit();
 
-                    /*Intent intent = new Intent(Registeration.this, VerifyPhoneActivity.class);
-                    intent.putExtra("phoneNumber", phoneNumber);
-                    startActivity(intent);
-                    Log.d("userdata", "onClick: " + username + password);*/
                     Intent intent = new Intent(Registeration.this, Login.class);
                     startActivity(intent);
                     layoutTransition();
@@ -774,6 +1021,9 @@ public class Registeration extends AppCompatActivity {
         dismiss_net_layout = findViewById(R.id.dismiss_net_layout);
         confirm_user_password = findViewById(R.id.confirm_user_password);
         district = findViewById(R.id.district_id);
+
+        profile_image = findViewById(R.id.profile_image);
+
         //tvlogin = findViewById(R.id.tvlogin);
         showNow=new ShowNow(this);
     }

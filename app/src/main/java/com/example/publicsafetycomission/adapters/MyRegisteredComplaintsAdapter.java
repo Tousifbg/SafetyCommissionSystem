@@ -2,21 +2,25 @@ package com.example.publicsafetycomission.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.publicsafetycomission.Feedback;
 import com.example.publicsafetycomission.R;
 import com.example.publicsafetycomission.ViewComplaints;
 import com.example.publicsafetycomission.model.RegisteredComplaintModel;
+import com.google.android.material.button.MaterialButton;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -70,19 +74,59 @@ public class MyRegisteredComplaintsAdapter extends
             holder.txtDate.setText(output);
         } catch (ParseException parseException) {
             parseException.printStackTrace();
-                        }
+        }
 
         holder.complaint_status.setText(registeredComplaintModel.getComplaint_status_title());
 
         String color = registeredComplaintModel.getComplaint_status_color();
 
-        holder.complaint_status.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color)));
+        //holder.complaint_status.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color)));
+
+        String status = registeredComplaintModel.getComplaint_status_title();
+        if (status.equals("accepted")){
+            holder.status_img.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_approved));
+        }
+        else if (status.equals("rejected")){
+            holder.status_img.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_withdrawnimg));
+        }
+        else if (status.equals("closed by applicant")){
+            holder.status_img.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_withdrawnimg));
+            holder.withdraw_complaint.setVisibility(View.GONE);
+        }
+        else if (status.equals("completed")){
+            holder.status_img.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_completed));
+            holder.feedback_complaint.setVisibility(View.VISIBLE);
+        }
+        if (status.equals("sent to police")){
+            holder.status_img.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_sent));
+        }
+        if (status.equals("police reply")){
+            holder.status_img.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reply));
+        }
+        if (status.equals("responded reply")){
+            holder.status_img.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reply));
+        }
+        if (status.equals("applicant feedback")){
+            holder.status_img.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_completed));
+        }
+        else {
+            holder.status_img.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_pending));
+        }
 
         holder.withdraw_complaint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((ViewComplaints) context).withDrawComplaintDialog(registeredComplaintModel.
                         getComplaint_id());
+            }
+        });
+
+        holder.feedback_complaint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Feedback.class);
+                intent.putExtra("complaint_id", registeredComplaintModel.getComplaint_id());
+                context.startActivity(intent);
             }
         });
     }
@@ -98,7 +142,9 @@ public class MyRegisteredComplaintsAdapter extends
         TextView council_txt,complainant_name,district_name,category_name,complaint_status,
                 txtDate,complaint_detail_txt;
 
-        TextView withdraw_complaint;
+        MaterialButton withdraw_complaint,feedback_complaint;
+
+        ImageView status_img;
 
         int color;
 
@@ -111,8 +157,10 @@ public class MyRegisteredComplaintsAdapter extends
             complaint_status = itemView.findViewById(R.id.complaint_status);
             txtDate = itemView.findViewById(R.id.txtDate);
             complaint_detail_txt = itemView.findViewById(R.id.complaint_detail_txt);
+            status_img = itemView.findViewById(R.id.status_img);
 
             withdraw_complaint = itemView.findViewById(R.id.withdraw_complaint);
+            feedback_complaint = itemView.findViewById(R.id.feedback_complaint);
         }
     }
 }

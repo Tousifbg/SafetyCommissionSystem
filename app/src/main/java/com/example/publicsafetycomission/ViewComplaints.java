@@ -266,7 +266,7 @@ public class ViewComplaints extends AppCompatActivity {
         animationView = findViewById(R.id.animationView);
         add_complaints = findViewById(R.id.add_complaints);
         btnBack = findViewById(R.id.btnBack);
-        logout = findViewById(R.id.buttonLogout);
+        //logout = findViewById(R.id.buttonLogout);
         showNow = new ShowNow(this);
     }
 

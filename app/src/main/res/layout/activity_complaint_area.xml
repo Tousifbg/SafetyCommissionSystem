@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#F5F5F5"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_70sdp"
-        android:background="@drawable/custom_toolbar_shape"
+        android:background="@drawable/toolbar_bg"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -25,9 +25,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Complaint"
+            android:text="Register Complaint"
             android:layout_weight="1"
-            android:textSize="@dimen/_16sdp"
+            android:textSize="@dimen/_15sdp"
             android:textAlignment="center"
             android:layout_marginRight="@dimen/_14sdp"
             android:layout_gravity="center"
@@ -41,7 +41,7 @@
         android:id="@+id/scrollBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbarThumbVertical="@color/colorPrimary"
+        android:scrollbarThumbVertical="@color/newgreen"
         android:scrollbarSize="@dimen/_5sdp">
 
         <LinearLayout
@@ -88,25 +88,16 @@
                 android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_10sdp"
                 android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="District: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_25sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_editext_white"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_14sdp">
 
 
@@ -117,9 +108,9 @@
                         android:layout_weight="1"
                         android:editable="false"
                         android:focusable="false"
-                        android:textSize="@dimen/_12sdp"
                         android:inputType="none"
-                        android:padding="12dp"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_13sdp"
                         android:clickable="true"
                         android:layout_marginLeft="16dp"
                         android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
@@ -130,22 +121,11 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Category: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_editext_white"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_14sdp">
 
 
@@ -157,8 +137,8 @@
                         android:editable="false"
                         android:focusable="false"
                         android:inputType="none"
-                        android:textSize="@dimen/_12sdp"
-                        android:padding="12dp"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_13sdp"
                         android:clickable="true"
                         android:layout_marginLeft="16dp"
                         android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
@@ -169,22 +149,12 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Council: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
-                    android:background="@drawable/rect_shape"
+                    android:background="@drawable/round_border_editext_white"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
                     android:layout_marginBottom="@dimen/_14sdp">
 
                     <EditText
@@ -193,31 +163,21 @@
                         android:id="@+id/complaint_council"
                         android:layout_weight="1"
                         android:inputType="text"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_13sdp"
                         android:clickable="true"
                         android:layout_marginLeft="16dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
-                        android:hint="Type council"/>
+                        android:hint="Type Council"/>
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Detail: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_65sdp"
-                    android:background="@drawable/rect_shape"
-                    android:layout_marginHorizontal="27dp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:background="@drawable/round_border_editext_white"
                     android:layout_marginBottom="@dimen/_14sdp">
 
                     <EditText
@@ -226,13 +186,13 @@
                         android:id="@+id/complaint_detail"
                         android:layout_weight="1"
                         android:inputType="textMultiLine"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_13sdp"
                         android:clickable="true"
                         android:layout_marginLeft="16dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
-                        android:hint="Write down your complaint..."/>
+                        android:hint="Write down your Complaint in Detail..."/>
 
                 </LinearLayout>
 
@@ -240,85 +200,81 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="32dp">
+                    android:layout_marginTop="@dimen/_5sdp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Attachments"
-                        android:textSize="15sp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="16dp"
-                        android:textColor="@color/black"/>
+                        android:text="Attachments (Add video, image, audio or document of your Complaint)"
+                        android:textSize="@dimen/_12sdp"
+                        android:layout_marginLeft="5dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:weightSum="4"
+                        android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_marginHorizontal="7dp"
-                            android:background="@drawable/rect_shape2">
+                            android:layout_weight="1">
 
                             <ImageView
                                 android:id="@+id/image_picker"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:padding="12dp"
-                                android:src="@drawable/image_fil"/>
+                                android:layout_marginBottom="@dimen/_2sdp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_baseline_image_24"/>
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_marginHorizontal="7dp"
-                            android:background="@drawable/rect_shape2">
+                            android:layout_weight="1">
 
                             <ImageView
                                 android:id="@+id/videos_picker"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:padding="12dp"
-                                android:src="@drawable/multimedia_player"/>
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_upload_videos"/>
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_marginHorizontal="7dp"
-                            android:background="@drawable/rect_shape2">
-
-                            <ImageView
-                                android:id="@+id/doc_picker"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:padding="12dp"
-                                android:src="@drawable/doc_fil"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_marginHorizontal="7dp"
-                            android:background="@drawable/rect_shape2">
+                            android:layout_weight="1">
 
                             <ImageView
                                 android:id="@+id/audios_picker"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:padding="12dp"
-                                android:src="@drawable/audio_file"/>
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_upload_audios"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/doc_picker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:padding="12dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_upload_doc"/>
 
                         </LinearLayout>
 
@@ -402,19 +358,21 @@
 
                 </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatButton
+                <Button
                     android:id="@+id/submitComplaint"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_bg"
+                    android:text="Register Complaint"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
                     android:gravity="center"
-                    android:text="ADD"
-                    android:textSize="14sp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_25sdp"
-                    android:background="@drawable/round_border_edittext"
-                    android:textColor="@color/black" />
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:padding="@dimen/_12sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:shadowColor="@color/white"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white" />
 
             </LinearLayout>
 

@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="#F5F5F5"
     tools:context=".Profile">
 
     <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_70sdp"
-        android:background="@drawable/custom_toolbar_shape"
+        android:background="@drawable/toolbar_bg"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -27,9 +27,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Information"
+            android:text="Profile"
             android:layout_weight="1"
-            android:textSize="@dimen/_16sdp"
+            android:textSize="@dimen/_15sdp"
             android:textAlignment="center"
             android:layout_marginRight="@dimen/_14sdp"
             android:layout_gravity="center"
@@ -84,321 +84,539 @@
 
             </LinearLayout>
 
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="@dimen/_74sdp"
+                android:layout_height="@dimen/_74sdp"
+                app:civ_border_color="#196F37"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:src="@drawable/profile_dummy_img"
+                app:civ_border_width="2dp" />
+
             <LinearLayout
                 android:id="@+id/data_layout"
                 android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_15sdp"
+                android:background="@color/white"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Full Name: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:layout_marginTop="@dimen/_12sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_shape"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_10sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/full_name"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="6dp"
-                        android:clickable="true"
-                        android:textColor="@color/black"
-                        android:background="@null"/>
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Full name"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/black"
+                            android:background="@null"/>
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/full_name"
+                            android:text="Full name"
+                            android:inputType="text"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textCursorDrawable="@null"
+                            android:textColor="@color/mytextcolor"
+                            android:background="@null"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mytextcolor"/>
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CNIC: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_shape"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
+                    android:orientation="vertical"
                     android:layout_marginBottom="@dimen/_10sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/cnic"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="6dp"
-                        android:clickable="true"
-                        android:textColor="@color/black"
-                        android:background="@null"/>
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="CNIC:"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/black"
+                            android:background="@null"/>
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/cnic"
+                            android:inputType="number"
+                            android:maxLength="13"                            android:text="30912839282083"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textCursorDrawable="@null"
+                            android:textColor="@color/mytextcolor"
+                            android:background="@null"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mytextcolor"/>
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Gender: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_shape"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
+                    android:orientation="vertical"
                     android:layout_marginBottom="@dimen/_10sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/gender"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="6dp"
-                        android:clickable="true"
-                        android:textColor="@color/black"
-                        android:background="@null"/>
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Gender:"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/black"
+                            android:background="@null"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/gender"
+                            android:text="male"
+                            android:textCursorDrawable="@null"
+                            android:inputType="text"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/mytextcolor"
+                            android:background="@null"/>
+
+                       <!-- <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/gender"
+                            android:text="male"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/mytextcolor"
+                            android:background="@null"/>-->
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mytextcolor"/>
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Guardian: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_shape"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
+                    android:orientation="vertical"
                     android:layout_marginBottom="@dimen/_10sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/guardian"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="6dp"
-                        android:clickable="true"
-                        android:textColor="@color/black"
-                        android:background="@null"/>
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Guardian:"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/black"
+                            android:background="@null"/>
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/guardian"
+                            android:text="Person"
+                            android:inputType="text"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/mytextcolor"
+                            android:background="@null"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mytextcolor"/>
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Email Address: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_shape"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
+                    android:orientation="vertical"
                     android:layout_marginBottom="@dimen/_10sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/email"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="6dp"
-                        android:clickable="true"
-                        android:textColor="@color/black"
-                        android:background="@null"/>
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Email:"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/black"
+                            android:background="@null"/>
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/email"
+                            android:text="email"
+                            android:inputType="textEmailAddress"
+                            android:textSize="@dimen/_12sdp"
+                            android:textCursorDrawable="@null"
+                            android:clickable="true"
+                            android:textColor="@color/mytextcolor"
+                            android:background="@null"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mytextcolor"/>
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="District: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_shape"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
+                    android:orientation="vertical"
                     android:layout_marginBottom="@dimen/_10sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/district"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="6dp"
-                        android:clickable="true"
-                        android:textColor="@color/black"
-                        android:background="@null"/>
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="District:"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/black"
+                            android:background="@null"/>
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/district"
+                            android:text="district"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:inputType="none"
+                            android:textCursorDrawable="@null"
+                            android:imeOptions="flagNoFullscreen"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:drawableRight="@drawable/ic_baseline_arrow_drop_down2"
+                            android:textColor="@color/mytextcolor"
+                            android:background="@null"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mytextcolor"/>
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Union Council: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_shape"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
+                    android:orientation="vertical"
                     android:layout_marginBottom="@dimen/_10sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/council"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="6dp"
-                        android:clickable="true"
-                        android:textColor="@color/black"
-                        android:background="@null"/>
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Union Council:"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/black"
+                            android:background="@null"/>
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/council"
+                            android:text="Council"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textCursorDrawable="@null"
+                            android:textColor="@color/mytextcolor"
+                            android:background="@null"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mytextcolor"/>
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Address: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_shape"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
+                    android:orientation="vertical"
                     android:layout_marginBottom="@dimen/_10sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/address"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="6dp"
-                        android:clickable="true"
-                        android:textColor="@color/black"
-                        android:background="@null"/>
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Address:"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/black"
+                            android:background="@null"/>
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/address"
+                            android:text="Council"
+                            android:textCursorDrawable="@null"
+                            android:inputType="text"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/mytextcolor"
+                            android:background="@null"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mytextcolor"/>
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Phone No: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_shape"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
+                    android:orientation="vertical"
                     android:layout_marginBottom="@dimen/_10sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/contact"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="6dp"
-                        android:clickable="true"
-                        android:textColor="@color/black"
-                        android:background="@null"/>
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Phone Number:"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/black"
+                            android:background="@null"/>
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/contact"
+                            android:text="Phone"
+                            android:textCursorDrawable="@null"
+                            android:inputType="numberSigned"
+                            android:maxLength="11"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/mytextcolor"
+                            android:background="@null"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mytextcolor"/>
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Username: "
-                    android:textSize="@dimen/_12sdp"
-                    android:layout_marginHorizontal="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rect_shape"
                     android:gravity="center_vertical"
-                    android:layout_marginHorizontal="27dp"
-                    android:layout_marginBottom="@dimen/_15sdp">
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/_10sdp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/username"
-                        android:padding="12dp"
-                        android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="6dp"
-                        android:clickable="true"
-                        android:textColor="@color/black"
-                        android:background="@null"/>
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Username:"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/black"
+                            android:background="@null"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/username"
+                            android:text="Username"
+                            android:textCursorDrawable="@null"
+                            android:inputType="text"
+                            android:textSize="@dimen/_12sdp"
+                            android:clickable="true"
+                            android:textColor="@color/mytextcolor"
+                            android:background="@null"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/mytextcolor"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:layout_marginHorizontal="@dimen/_30sdp"
+                    android:gravity="center_vertical">
+
+                    <Button
+                        android:id="@+id/updateProfileBtn"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_bg"
+                        android:text="Update Profile"
+                        android:padding="@dimen/_12sdp"
+                        android:textSize="@dimen/_14sdp"
+                        android:shadowColor="@color/white"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white" />
 
                 </LinearLayout>
 

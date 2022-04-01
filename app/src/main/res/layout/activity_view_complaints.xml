@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="#F5F5F5"
     tools:context=".ViewComplaints">
 
     <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_70sdp"
-        android:background="@drawable/custom_toolbar_shape"
+        android:background="@drawable/toolbar_bg"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -27,9 +27,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Complaints"
+            android:text="View Complaint"
             android:layout_weight="1"
-            android:textSize="@dimen/_16sdp"
+            android:textSize="@dimen/_15sdp"
             android:textAlignment="center"
             android:layout_marginRight="@dimen/_14sdp"
             android:layout_gravity="center"

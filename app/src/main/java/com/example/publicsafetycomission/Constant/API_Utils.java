@@ -16,9 +16,12 @@ public class API_Utils {
 
     public static String GET_PROFILE = "https://ppsc.kp.gov.pk/Api/profile_get";
 
+    public static String UPDATE_PROFILE = "https://ppsc.kp.gov.pk/Api/complainant_profile_update";
+
     public static String GET_COMPLAINTS = "https://www.ppsc.kp.gov.pk/Api/complainant_complaints";
 
-    public static String UPDATE_PROFILE = "https://www.ppsc.kp.gov.pk/Api/complainant_profile_update";
+    public static String FEEDBACK = "https://ppsc.kp.gov.pk/Api/complaint_feedback";
+
 
     public static String FORGOT_PASSWORD_VERIFY = "https://ppsc.kp.gov.pk/Api/verify_account";
 
