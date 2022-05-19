@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F5F5F5"
-    tools:context=".Profile">
+    tools:context="com.app.publicsafetycomission.Profile">
 
     <LinearLayout
         android:id="@+id/toolbar"
@@ -91,7 +91,7 @@
                 app:civ_border_color="#196F37"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:src="@drawable/profile_dummy_img"
+                android:src="@drawable/ic_baseline_camera_alt_24"
                 app:civ_border_width="2dp" />
 
             <LinearLayout

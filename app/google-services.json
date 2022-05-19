@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:825937044073:android:140f30937cdc7fbeca78f8",
+        "mobilesdk_app_id": "1:825937044073:android:8167c8e091bff336ca78f8",
         "android_client_info": {
-          "package_name": "com.example.publicsafetycomission"
+          "package_name": "com.app.publicsafetycomission"
         }
       },
       "oauth_client": [
         {
-          "client_id": "825937044073-ahid39souo6b5e1rlfp4u70mv40251th.apps.googleusercontent.com",
+          "client_id": "825937044073-2f64avlmjadj4v3pc4de9qi4673a90qv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.publicsafetycomission",
+            "package_name": "com.app.publicsafetycomission",
             "certificate_hash": "3cf01da7d1ca59475abd2af825ce885dcdb8759b"
           }
         },

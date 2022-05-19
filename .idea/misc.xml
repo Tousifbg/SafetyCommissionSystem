@@ -24,11 +24,13 @@
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1828125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_baseline_arrow_drop_down2.xml" value="0.16944444444444445" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_baseline_arrow_drop_down_24.xml" value="0.1828125" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_baseline_camera_alt_24.xml" value="0.18013856812933027" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.16041666666666668" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_baseline_image_24.xml" value="0.15555555555555556" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.17291666666666666" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.16041666666666668" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_bgnew.xml" value="0.17291666666666666" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_camera_svg.xml" value="0.18013856812933027" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_cancel_img.xml" value="0.17291666666666666" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_completed.xml" value="0.16875" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/ic_exitimg.xml" value="0.17291666666666666" />
@@ -67,26 +69,29 @@
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/user.xml" value="0.17291666666666666" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/username_icon.xml" value="0.17291666666666666" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/drawable/withdrawn_btn.xml" value="0.1486111111111111" />
-        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_complaint_area.xml" value="0.12" />
-        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_dashboard.xml" value="0.152" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_about_us.xml" value="0.152" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_ads.xml" value="0.167578125" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_complaint_area.xml" value="0.152" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_dashboard.xml" value="0.176" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_feedback.xml" value="0.136" />
-        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_main.xml" value="0.128" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_profile.xml" value="0.136" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_profile_update.xml" value="0.136" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_registeration.xml" value="0.152" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_splash.xml" value="0.10400000000000001" />
-        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_verify_phone.xml" value="0.152" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_verify_phone.xml" value="0.2" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/activity_view_complaints.xml" value="0.136" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/cat_dialog.xml" value="0.144" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/cat_dialog_adpater.xml" value="0.167578125" />
-        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/complaint_withdrawn_dialog.xml" value="0.12" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/complaint_withdrawn_dialog.xml" value="0.136" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/country_dialog.xml" value="0.2" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/country_dialog_adpater.xml" value="0.167578125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/dist_dialog.xml" value="0.144" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/dist_dialog2.xml" value="0.167578125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/dist_dialog_adpater.xml" value="0.167578125" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/dist_dialog_adpater2.xml" value="0.167578125" />
-        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/forgotpassword_dialog.xml" value="0.264" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/forgotpassword_dialog.xml" value="0.152" />
+        <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/help_dialog.xml" value="0.176" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/registered_complaint_itemview.xml" value="0.136" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/layout/setting_item.xml" value="0.136" />
         <entry key="..\:/Android Projects/ComplaintSystem/app/src/main/res/xml/provider_paths.xml" value="0.167578125" />

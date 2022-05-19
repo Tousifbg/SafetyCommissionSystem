@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F5F5F5"
-    tools:context=".ViewComplaints">
+    tools:context="com.app.publicsafetycomission.ViewComplaints">
 
     <LinearLayout
         android:id="@+id/toolbar"

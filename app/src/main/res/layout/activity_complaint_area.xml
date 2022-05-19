@@ -94,10 +94,34 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginHorizontal="@dimen/_15sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select District"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="ضلع منتخب کریں"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
                     android:background="@drawable/round_border_editext_white"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_14sdp">
 
 
@@ -118,6 +142,30 @@
                         android:textColorHint="@color/mytextcolor"
                         android:hint="Select District"/>
 
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginHorizontal="@dimen/_15sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Category"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="زمرہ منتخب کریں"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -152,6 +200,29 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginHorizontal="@dimen/_15sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Union Council"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="یونین کونسل"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/_47sdp"
                     android:background="@drawable/round_border_editext_white"
                     android:gravity="center_vertical"
@@ -169,10 +240,32 @@
                         android:layout_marginLeft="16dp"
                         android:background="@null"
                         android:textColorHint="@color/mytextcolor"
-                        android:hint="Type Council"/>
+                        android:hint="Enter Union Council"/>
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:layout_marginHorizontal="@dimen/_15sdp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Write Complaint Details"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="شکایت کی تفصیلات لکھیں"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -207,7 +300,15 @@
                         android:layout_height="wrap_content"
                         android:text="Attachments (Add video, image, audio or document of your Complaint)"
                         android:textSize="@dimen/_12sdp"
-                        android:layout_marginLeft="5dp" />
+                        android:layout_marginHorizontal="@dimen/_5sdp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="منسلکات (اپنی شکایت کی ویڈیو، تصویر، آڈیو یا دستاویز شامل کریں)"
+                        android:textSize="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginHorizontal="@dimen/_5sdp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -301,7 +402,7 @@
                                 android:layout_height="match_parent"
                                 android:padding="5dp"
                                 android:scaleType="fitXY"
-                                android:visibility="invisible" />
+                                android:visibility="visible" />
 
                         </LinearLayout>
 
@@ -329,7 +430,8 @@
                             android:layout_marginHorizontal="7dp">
 
                             <ImageView
-                                android:id="@+id/doc_tick"
+
+                                android:id="@+id/audios_tick"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:padding="8dp"
@@ -345,7 +447,7 @@
                             android:layout_marginHorizontal="7dp">
 
                             <ImageView
-                                android:id="@+id/audios_tick"
+                                android:id="@+id/doc_tick"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:padding="8dp"

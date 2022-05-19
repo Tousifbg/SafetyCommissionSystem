@@ -156,6 +156,7 @@
                         android:textSize="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:layout_gravity="center_horizontal"
                         android:text="Register Complaint"/>
 
@@ -193,6 +194,7 @@
                         android:textSize="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:layout_gravity="center_horizontal"
                         android:text="View Complaints"/>
 
@@ -241,6 +243,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:textAlignment="center"
+                        android:textColor="@color/black"
                         android:text="Help"/>
 
                 </LinearLayout>
@@ -278,6 +281,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:textAlignment="center"
                         android:text="About Us"
+                        android:textColor="@color/black"
                         android:layout_gravity="center_horizontal"/>
 
                 </LinearLayout>
